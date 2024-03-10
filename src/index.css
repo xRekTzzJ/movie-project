@@ -17,7 +17,8 @@ body {
   border-radius: 0 !important;
 }
 .ant-card {
-  width: 450px;
+  max-width: 450px !important;
+  max-height: 280px !important;
   margin: 0;
   padding: 0 !important;
   border-radius: 0 !important;
@@ -25,31 +26,37 @@ body {
 }
 .card__image {
   display: block;
-  min-width: 183px;
-  min-height: 281px;
+  width: 183px;
+  height: 100%;
   object-fit: contain;
   object-position: center;
 }
 .card__score {
-  padding: 8px;
+  margin: 8px;
   border-radius: 50%;
   border: 2px solid #e9d100;
+  width: 30px;
+  height: 30px;
   font-size: 12px;
   font-weight: 400;
   line-height: 22px;
   letter-spacing: 0px;
-  text-align: left;
+  padding: 0;
+  text-align: center;
   margin-right: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .ant-rate-star {
-  margin-inline-end: 4px !important;
+  margin-inline-end: 2px !important;
 }
 .card__title {
   font-size: 20px;
   font-weight: 400;
   line-height: 28px;
   letter-spacing: 0em;
-  max-width: 140px;
+  max-width: 140px !important;
   text-align: left;
 }
 .card__date {
@@ -79,6 +86,9 @@ body {
   min-width: 228px;
   padding-right: 20px;
 }
-.card__info {
-  padding-top: 4px !important;
+.card__score_green {
+  border: 2px solid #008000;
+}
+.card__score_red {
+  border: 2px solid #ff0000;
 }

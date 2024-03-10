@@ -14,7 +14,7 @@ export default class App extends Component {
   };
   getMovies = () => {
     const movie = new MovieService();
-    movie.getMovies().then((res) =>
+    movie.getTrendMovies().then((res) =>
       this.setState({
         movies: res.results,
       })
