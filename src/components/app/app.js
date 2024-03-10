@@ -1,4 +1,4 @@
-import { Flex, Pagination } from 'antd';
+import { Flex, Input, Pagination } from 'antd';
 import React, { Component } from 'react';
 
 import CardItem from '../cardItem/cardItem';
@@ -28,6 +28,7 @@ export default class App extends Component {
   render() {
     return (
       <section className="page">
+        <Input placeholder="Type to search..." className="input" />
         <Flex wrap="wrap" gap={33} justify="space-between" className="card-list">
           {this.state.movies.map((i) => {
             return (

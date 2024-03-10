@@ -2,11 +2,9 @@
 body {
   background-color: #f7f7f7;
 }
-.card-list {
-  padding: 0 30px;
-}
 .page {
-  max-width: 1010px;
+  max-width: 950px;
+  padding: 0 30px !important;
   margin: 0 auto;
   padding: 0;
   background-color: #ffffff;
@@ -27,8 +25,8 @@ body {
 .card__image {
   display: block;
   width: 183px;
-  height: 100%;
-  object-fit: contain;
+  height: 280px;
+  object-fit: cover;
   object-position: center;
 }
 .card__score {
@@ -97,4 +95,15 @@ body {
   padding-bottom: 17px;
   display: flex;
   justify-content: center;
+}
+.input {
+  padding: 0;
+  padding-left: 12px;
+  margin: 20px 0 35px;
+  height: 40px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 0px;
+  text-align: left;
 }

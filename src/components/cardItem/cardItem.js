@@ -22,7 +22,9 @@ export default class CardItem extends Component {
               </Typography.Text>
               <Typography.Text className={scoreClasses}>{score}</Typography.Text>
             </Flex>
-            <Typography.Text className="card__date">{format(new Date(date), 'MMMM dd, yyyy')}</Typography.Text>
+            <Typography.Text className="card__date">
+              {date ? format(new Date(date), 'MMMM dd, yyyy') : 'Invalid date'}
+            </Typography.Text>
             <Flex align="start" gap={8}>
               <Typography.Text className="card__genre">Action</Typography.Text>
               <Typography.Text className="card__genre">Drama</Typography.Text>
