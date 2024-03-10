@@ -12,7 +12,7 @@ export default class MovieService {
     const res = await fetch('https://api.themoviedb.org/3/trending/movie/week?language=en-US', options);
     return res.json();
   }
-  async getMovies(request) {
+  async getMovies(request, page = 1) {
     const options = {
       method: 'GET',
       headers: {
@@ -23,7 +23,7 @@ export default class MovieService {
     };
 
     const res = await fetch(
-      `https://api.themoviedb.org/3/search/movie?query=${request}&include_adult=false&language=en-US&page=1`,
+      `https://api.themoviedb.org/3/search/movie?query=${request}&include_adult=false&language=en-US&page=${page}`,
       options
     );
     return res.json();

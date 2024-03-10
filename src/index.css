@@ -92,3 +92,9 @@ body {
 .card__score_red {
   border: 2px solid #ff0000;
 }
+.pagination {
+  padding-top: 35px;
+  padding-bottom: 17px;
+  display: flex;
+  justify-content: center;
+}

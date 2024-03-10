@@ -1,4 +1,4 @@
-import { Flex } from 'antd';
+import { Flex, Pagination } from 'antd';
 import React, { Component } from 'react';
 
 import CardItem from '../cardItem/cardItem';
@@ -11,12 +11,17 @@ export default class App extends Component {
   }
   state = {
     movies: [],
+    page: null,
+    totalPages: null,
   };
-  getMovies = () => {
+  getMovies = (name = 'The', page = 1) => {
     const movie = new MovieService();
-    movie.getTrendMovies().then((res) =>
+    movie.getMovies(name, page).then((res) =>
       this.setState({
         movies: res.results,
+        name,
+        page: res.page,
+        totalPages: res.total_pages,
       })
     );
   };
@@ -25,7 +30,6 @@ export default class App extends Component {
       <section className="page">
         <Flex wrap="wrap" gap={33} justify="space-between" className="card-list">
           {this.state.movies.map((i) => {
-            console.log(i);
             return (
               <CardItem
                 image={i.poster_path}
@@ -38,6 +42,15 @@ export default class App extends Component {
             );
           })}
         </Flex>
+        <Pagination
+          className="pagination"
+          defaultCurrent={this.state.page}
+          total={this.state.totalPages}
+          showSizeChanger={false}
+          onChange={(page) => {
+            this.getMovies(this.state.name, page);
+          }}
+        />
       </section>
     );
   }

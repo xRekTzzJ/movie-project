@@ -1,6 +1,6 @@
 import { Card, Flex, Rate, Typography } from 'antd';
+import { format } from 'date-fns';
 import React, { Component } from 'react';
-
 export default class CardItem extends Component {
   render() {
     const { title, score, date, desc, image } = this.props;
@@ -17,17 +17,12 @@ export default class CardItem extends Component {
           <img alt="avatar" src={`https://image.tmdb.org/t/p/w500/${image}`} className="card__image" />
           <Flex vertical="true" gap={7} className="card__info">
             <Flex align="center" justify="space-between">
-              <Typography.Text
-                className="card__title"
-                ellipsis={{
-                  rows: 1,
-                }}
-              >
+              <Typography.Text className="card__title" ellipsis>
                 {title}
               </Typography.Text>
               <Typography.Text className={scoreClasses}>{score}</Typography.Text>
             </Flex>
-            <Typography.Text className="card__date">{date}</Typography.Text>
+            <Typography.Text className="card__date">{format(new Date(date), 'MMMM dd, yyyy')}</Typography.Text>
             <Flex align="start" gap={8}>
               <Typography.Text className="card__genre">Action</Typography.Text>
               <Typography.Text className="card__genre">Drama</Typography.Text>
