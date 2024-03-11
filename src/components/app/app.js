@@ -1,20 +1,20 @@
-import { Flex, Input, Pagination } from 'antd';
+import { Flex, Input, Layout, Menu, Pagination } from 'antd';
 import React, { Component } from 'react';
 
-import CardItem from '../cardItem/cardItem';
+import CardItem from '../cardItem';
 import MovieService from '../services/movie-service';
-
 export default class App extends Component {
   constructor() {
     super();
-    this.getMovies();
+    this.getMovies('The');
   }
   state = {
     movies: [],
     page: null,
     totalPages: null,
+    name: null,
   };
-  getMovies = (name = 'The', page = 1) => {
+  getMovies = (name, page = 1) => {
     const movie = new MovieService();
     movie.getMovies(name, page).then((res) =>
       this.setState({
@@ -26,8 +26,19 @@ export default class App extends Component {
     );
   };
   render() {
+    const { Header } = Layout;
     return (
       <section className="page">
+        <Header className="Header">
+          <Menu
+            mode="horizontal"
+            defaultSelectedKeys={['1']}
+            items={[
+              { key: 1, label: 'Searched' },
+              { key: 2, label: 'Rated' },
+            ]}
+          ></Menu>
+        </Header>
         <Input placeholder="Type to search..." className="input" />
         <Flex wrap="wrap" gap={33} justify="space-between" className="card-list">
           {this.state.movies.map((i) => {
