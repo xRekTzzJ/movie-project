@@ -8,6 +8,8 @@ body {
   margin: 0 auto;
   padding: 0;
   background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
 }
 .ant-card-body {
   margin: 0;
@@ -112,4 +114,15 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.ant-pagination-item-active a {
+  background-color: #1890ff !important;
+  color: #ffffff !important;
+}
+.ant-pagination {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 0px;
+  text-align: center;
 }

@@ -1,11 +1,12 @@
-import { Flex, Input, Layout, Menu, Pagination } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
+import { Input, Pagination, Spin } from 'antd';
 import React, { Component } from 'react';
 
-import CardItem from '../cardItem';
+import CardList from '../cardList';
+import Header from '../header';
 import MovieService from '../services/movie-service';
 export default class App extends Component {
-  constructor() {
-    super();
+  componentDidMount() {
     this.getMovies('The');
   }
   state = {
@@ -14,72 +15,71 @@ export default class App extends Component {
     totalPages: null,
     name: null,
     isRatedList: false,
+    loading: true,
   };
+
   getMovies = (name, page = 1) => {
-    const movie = new MovieService();
-    movie.getMovies(name, page).then((res) =>
+    this.setState({
+      loading: true,
+    });
+    this.movie.getMovies(name, page).then((res) =>
       this.setState({
         movies: res.results,
         name,
         page: res.page,
         totalPages: res.total_pages,
         isRatedList: false,
+        loading: false,
       })
     );
   };
   getRatedMovies = (page = 1) => {
-    const movie = new MovieService();
-    movie.getTrendMovies(page).then((res) =>
+    this.setState({
+      loading: true,
+    });
+    this.movie.getTrendMovies(page).then((res) =>
       this.setState({
         movies: res.results,
         name: null,
         page: res.page,
         totalPages: res.total_pages,
         isRatedList: true,
+        loading: false,
       })
     );
   };
   onHeaderButtonClick = (e) => {
     e.key === '1' ? this.getMovies('The') : this.getRatedMovies();
   };
+  movie = new MovieService();
   render() {
-    const { Header } = Layout;
+    const { movies, page, totalPages, isRatedList, name, loading } = this.state;
     return (
       <section className="page">
-        <Header className="Header">
-          <Menu
-            mode="horizontal"
-            defaultSelectedKeys={['1']}
-            items={[
-              { key: 1, label: 'Searched' },
-              { key: 2, label: 'Rated' },
-            ]}
-            onClick={this.onHeaderButtonClick}
-          ></Menu>
-        </Header>
+        <Header onHeaderButtonClick={this.onHeaderButtonClick} />
         <Input placeholder="Type to search..." className="input" />
-        <Flex wrap="wrap" gap={33} justify="space-between" className="card-list">
-          {this.state.movies.map((i) => {
-            return (
-              <CardItem
-                image={i.poster_path}
-                key={i.id}
-                title={i.title}
-                score={i.vote_average.toFixed(1)}
-                date={i.release_date}
-                desc={i.overview}
+        {loading ? (
+          <Spin
+            size="large"
+            indicator={
+              <LoadingOutlined
+                style={{
+                  fontSize: 50,
+                }}
+                spin
               />
-            );
-          })}
-        </Flex>
+            }
+          />
+        ) : null}
+        {!loading ? <CardList movies={movies} /> : null}
         <Pagination
           className="pagination"
-          defaultCurrent={this.state.page}
-          current={this.state.page}
-          total={this.state.totalPages}
+          defaultCurrent={page}
+          current={page}
+          total={totalPages}
           showSizeChanger={false}
           onChange={(page) => {
-            this.state.isRatedList ? this.getRatedMovies(page) : this.getMovies(this.state.name, page);
+            isRatedList ? this.getRatedMovies(page) : this.getMovies(name, page);
           }}
         />
       </section>
