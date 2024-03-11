@@ -14,23 +14,23 @@ export default class App extends Component {
     movies: [],
     page: null,
     totalPages: null,
-    name: null,
-    isRatedList: false,
+    isRatedList: true,
     loading: true,
     error: false,
     offline: false,
+    inputValue: '',
   };
 
-  getMovies = (name, page = 1) => {
+  getMovies = (inputValue, page = 1) => {
     this.setState({
       loading: true,
     });
     this.movie
-      .getMovies(name, page)
+      .getMovies(inputValue, page)
       .then((res) =>
         this.setState({
           movies: res.results,
-          name,
+          inputValue,
           page: res.page,
           totalPages: res.total_pages,
           isRatedList: false,
@@ -55,7 +55,7 @@ export default class App extends Component {
       .then((res) =>
         this.setState({
           movies: res.results,
-          name: null,
+          inputValue: '',
           page: res.page,
           totalPages: res.total_pages,
           isRatedList: true,
@@ -93,11 +93,11 @@ export default class App extends Component {
       />
     ) : null;
   };
-  renderCardList = (loading, error, movies) => {
-    return !loading && !error ? <CardList movies={movies} /> : null;
+  renderCardList = (loading, error, movies, isRatedList) => {
+    return !loading && !error ? <CardList movies={movies} isRatedList={isRatedList} /> : null;
   };
-  onClickPagination = (page, isRatedList, name) => {
-    isRatedList ? this.getRatedMovies(page) : this.getMovies(name, page);
+  onClickPagination = (page, isRatedList, inputValue) => {
+    isRatedList ? this.getRatedMovies(page) : this.getMovies(inputValue, page);
   };
   lostConnectionHandler = () => {
     this.setState(({ offline }) => {
@@ -108,14 +108,14 @@ export default class App extends Component {
   };
   movie = new MovieService();
   render() {
-    const { movies, page, totalPages, isRatedList, name, loading, error, offline } = this.state;
+    const { movies, page, totalPages, isRatedList, inputValue, loading, error, offline } = this.state;
     return (
       <section className="page">
         <Header onHeaderButtonClick={this.onHeaderButtonClick} />
         <Input placeholder="Type to search..." className="input" />
         {this.renderSpinner(loading)}
         {this.renderErrorAlert(error)}
-        <Online>{this.renderCardList(loading, error, movies)}</Online>
+        <Online>{this.renderCardList(loading, error, movies, isRatedList, inputValue)}</Online>
         <Offline onChange={this.lostConnectionHandler}>
           <Alert
             message="The connection is lost."
@@ -132,7 +132,7 @@ export default class App extends Component {
           showSizeChanger={false}
           disabled={error || offline ? true : false}
           onChange={(pageNumber) => {
-            this.onClickPagination(pageNumber, isRatedList, name);
+            this.onClickPagination(pageNumber, isRatedList, inputValue);
           }}
         />
       </section>

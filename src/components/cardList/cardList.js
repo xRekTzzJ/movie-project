@@ -1,10 +1,9 @@
-import { Flex } from 'antd';
+import { Alert, Flex } from 'antd';
 import React, { Component } from 'react';
 
 import CardItem from '../cardItem';
 export default class CardList extends Component {
-  render() {
-    const { movies } = this.props;
+  renderMovies = (movies) => {
     return (
       <Flex wrap="wrap" gap={33} justify="space-between" className="card-list">
         {movies.map((i) => {
@@ -20,6 +19,18 @@ export default class CardList extends Component {
           );
         })}
       </Flex>
+    );
+  };
+  render() {
+    const { movies, isRatedList, inputValue } = this.props;
+    return inputValue || isRatedList ? (
+      this.renderMovies(movies)
+    ) : (
+      <Alert
+        message="The request fields cannot be empty."
+        description="Enter the query in the input field."
+        type="warning"
+      />
     );
   }
 }
