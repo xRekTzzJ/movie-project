@@ -18,13 +18,8 @@ export default class CardList extends Component {
       );
     });
   };
-  renderWrapper = () => {
-    const { movies } = this.props;
-    return movies.length > 0 ? (
-      <Flex wrap="wrap" gap={33} justify="space-between" className="card-list">
-        {this.renderMovies()}
-      </Flex>
-    ) : (
+  notFoundAlert = () => {
+    return (
       <Alert
         message="No movies were found for this query."
         description="Please change the request and try again."
@@ -32,16 +27,27 @@ export default class CardList extends Component {
       />
     );
   };
-  render() {
-    const { isRatedList, inputValue } = this.props;
-    return inputValue || isRatedList ? (
-      this.renderWrapper()
-    ) : (
+  emptyInputAlert = () => {
+    return (
       <Alert
         message="The request fields cannot be empty."
         description="Enter the query in the input field."
         type="warning"
       />
     );
+  };
+  renderWrapper = () => {
+    const { movies } = this.props;
+    return movies.length > 0 ? (
+      <Flex wrap="wrap" gap={33} justify="space-between" className="card-list">
+        {this.renderMovies()}
+      </Flex>
+    ) : (
+      this.notFoundAlert()
+    );
+  };
+  render() {
+    const { isRatedList, inputValue } = this.props;
+    return inputValue || isRatedList ? this.renderWrapper() : this.emptyInputAlert();
   }
 }

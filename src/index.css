@@ -1,131 +1,19 @@
-@import-normalize;
-body {
-  background-color: #f7f7f7;
-}
-.page {
-  max-width: 950px;
-  padding: 0 30px !important;
-  margin: 0 auto;
-  padding: 0;
-  background-color: #ffffff;
-  display: flex;
-  flex-direction: column;
-}
-.ant-card-body {
-  margin: 0;
-  padding: 0 !important;
-  border-radius: 0 !important;
-}
-.ant-card {
-  max-width: 450px !important;
-  max-height: 280px !important;
-  margin: 0;
-  padding: 0 !important;
-  border-radius: 0 !important;
-  box-shadow: 0px 4px 12px 0px #00000026;
-}
-.card__image {
-  display: block;
-  width: 183px;
-  height: 280px;
-  object-fit: cover;
-  object-position: center;
-}
-.card__score {
-  margin: 8px;
-  border-radius: 50%;
-  border: 2px solid #e9d100;
-  width: 30px;
-  height: 30px;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 22px;
-  letter-spacing: 0px;
-  padding: 0;
-  text-align: center;
-  margin-right: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.ant-rate-star {
-  margin-inline-end: 2px !important;
-}
-.card__title {
-  font-size: 20px;
-  font-weight: 400;
-  line-height: 28px;
-  letter-spacing: 0em;
-  max-width: 140px !important;
-  text-align: left;
-}
-.card__date {
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 22px;
-  letter-spacing: 0px;
-  text-align: left;
-  color: #827e7e;
-}
-.card__genre {
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 15px;
-  letter-spacing: 0em;
-  text-align: left;
-  border: 1px solid #d9d9d9;
-  padding: 3px;
-}
-.card__description {
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 22px;
-  letter-spacing: 0px;
-  text-align: left;
-  height: 110px;
-  width: 228px;
-  padding-right: 20px;
-}
-.card__score_green {
-  border: 2px solid #008000;
-}
-.card__score_red {
-  border: 2px solid #ff0000;
-}
-.pagination {
-  padding-top: 35px;
-  padding-bottom: 17px;
-  display: flex;
-  justify-content: center;
-}
-.input {
-  padding: 0;
-  padding-left: 12px;
-  margin: 20px 0 35px;
-  height: 40px;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 22px;
-  letter-spacing: 0px;
-  text-align: left;
-}
-.Header {
-  background: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.ant-pagination-item-active a {
-  background-color: #1890ff !important;
-  color: #ffffff !important;
-}
-.ant-pagination {
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 22px;
-  letter-spacing: 0px;
-  text-align: center;
-}
-.card__image_broken {
-  object-fit: contain;
-}
+@import url(./styles/body/body.css);
+@import url(./styles/page/page.css);
+@import url(./styles/ant-card-body/ant-card-body.css);
+@import url(./styles/ant-card/ant-card.css);
+@import url(./styles/card/__image/card__image.css);
+@import url(./styles/card/__score/card__score.css);
+@import url(./styles/ant-rate-star/ant-rate-star.css);
+@import url(./styles/card/__title/card__title.css);
+@import url(./styles/card/__date/card__date.css);
+@import url(./styles/card/__genre/card__genre.css);
+@import url(./styles/card/__description/card__description.css);
+@import url(./styles/card/__score/_green/card__score_green.css);
+@import url(./styles/card/__score/_red/card__score_red.css);
+@import url(./styles/pagination/pagination.css);
+@import url(./styles/input/input.css);
+@import url(./styles/header/header.css);
+@import url(./styles/ant-pagination-item-active/ant-pagination-item-active.css);
+@import url(./styles/ant-pagination/ant-pagination.css);
+@import url(./styles/card/__image/_broken/card__image_broken.css);

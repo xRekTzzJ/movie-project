@@ -94,6 +94,16 @@ export default class App extends Component {
       <Alert showIcon type="error" description="The error is on the server side. Please try again later." />
     ) : null;
   };
+  renderOfflineAlert = () => {
+    return (
+      <Alert
+        message="The connection is lost."
+        description="Please check your connection and try again."
+        type="error"
+        showIcon
+      />
+    );
+  };
   renderSpinner = (loading) => {
     return loading ? (
       <Spin
@@ -138,14 +148,7 @@ export default class App extends Component {
         {this.renderSpinner(loading)}
         {this.renderErrorAlert(error)}
         <Online>{this.renderCardList(loading, error, movies, isRatedList, inputValue)}</Online>
-        <Offline onChange={this.lostConnectionHandler}>
-          <Alert
-            message="The connection is lost."
-            description="Please check your connection and try again."
-            type="error"
-            showIcon
-          />
-        </Offline>
+        <Offline onChange={this.lostConnectionHandler}>{this.renderOfflineAlert()}</Offline>
         <Pagination
           className="pagination"
           defaultCurrent={page}

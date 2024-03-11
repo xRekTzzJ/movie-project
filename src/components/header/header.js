@@ -9,7 +9,7 @@ export default class Header extends Component {
       { key: 2, label: 'Rated' },
     ];
     return (
-      <Header className="Header">
+      <Header className="header">
         <Menu
           onClick={onHeaderButtonClick}
           mode="horizontal"

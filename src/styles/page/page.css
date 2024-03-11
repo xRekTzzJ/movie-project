@@ -1,0 +1,9 @@
+.page {
+  max-width: 950px;
+  padding: 0 30px !important;
+  margin: 0 auto;
+  padding: 0;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
