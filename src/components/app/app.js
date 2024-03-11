@@ -12,7 +12,7 @@ export default class App extends Component {
     this.getRatedMovies();
   }
   state = {
-    movies: [],
+    movies: null,
     page: null,
     totalPages: null,
     isRatedList: true,
