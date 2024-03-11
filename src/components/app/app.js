@@ -1,6 +1,7 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { Alert, Input, Pagination, Spin } from 'antd';
 import React, { Component } from 'react';
+import { Offline, Online } from 'react-detect-offline';
 
 import CardList from '../cardList';
 import Header from '../header';
@@ -17,6 +18,7 @@ export default class App extends Component {
     isRatedList: false,
     loading: true,
     error: false,
+    offline: false,
   };
 
   getMovies = (name, page = 1) => {
@@ -34,6 +36,7 @@ export default class App extends Component {
           isRatedList: false,
           loading: false,
           error: false,
+          Offline: false,
         })
       )
       .catch(() =>
@@ -96,23 +99,38 @@ export default class App extends Component {
   onClickPagination = (page, isRatedList, name) => {
     isRatedList ? this.getRatedMovies(page) : this.getMovies(name, page);
   };
+  lostConnectionHandler = () => {
+    this.setState(({ offline }) => {
+      return {
+        offline: !offline,
+      };
+    });
+  };
   movie = new MovieService();
   render() {
-    const { movies, page, totalPages, isRatedList, name, loading, error } = this.state;
+    const { movies, page, totalPages, isRatedList, name, loading, error, offline } = this.state;
     return (
       <section className="page">
         <Header onHeaderButtonClick={this.onHeaderButtonClick} />
         <Input placeholder="Type to search..." className="input" />
         {this.renderSpinner(loading)}
         {this.renderErrorAlert(error)}
-        {this.renderCardList(loading, error, movies)}
+        <Online>{this.renderCardList(loading, error, movies)}</Online>
+        <Offline onChange={this.lostConnectionHandler}>
+          <Alert
+            message="The connection is lost."
+            description="Please check your connection and try again."
+            type="error"
+            showIcon
+          />
+        </Offline>
         <Pagination
           className="pagination"
           defaultCurrent={page}
           current={page}
           total={totalPages}
           showSizeChanger={false}
-          disabled={error ? true : false}
+          disabled={error || offline ? true : false}
           onChange={(pageNumber) => {
             this.onClickPagination(pageNumber, isRatedList, name);
           }}
