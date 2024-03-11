@@ -30,7 +30,6 @@ export default class App extends Component {
       .then((res) =>
         this.setState({
           movies: res.results,
-          inputValue,
           page: res.page,
           totalPages: res.total_pages,
           isRatedList: false,
@@ -73,8 +72,11 @@ export default class App extends Component {
   onHeaderButtonClick = (e) => {
     e.key === '1' ? this.getMovies() : this.getRatedMovies();
   };
-  onInputEnter = (e) => {
-    this.getMovies(e.target.value);
+  onInputChange = (e) => {
+    this.getMovies(this.state.inputValue);
+    this.setState({
+      inputValue: e.target.value,
+    });
   };
   renderErrorAlert = (error) => {
     return error ? (
@@ -115,7 +117,7 @@ export default class App extends Component {
     return (
       <section className="page">
         <Header isRatedList={isRatedList} onHeaderButtonClick={this.onHeaderButtonClick} />
-        <Input onPressEnter={this.onInputEnter} placeholder="Type to search..." className="input" />
+        <Input onChange={this.onInputChange} placeholder="Type to search..." className="input" value={inputValue} />
         {this.renderSpinner(loading)}
         {this.renderErrorAlert(error)}
         <Online>{this.renderCardList(loading, error, movies, isRatedList, inputValue)}</Online>
