@@ -4,7 +4,7 @@ export default class Header extends Component {
   render() {
     const { Header } = Layout;
     const headerButtons = [
-      { key: 1, label: 'Searched' },
+      { key: 1, label: 'Search' },
       { key: 2, label: 'Rated' },
     ];
     return (
