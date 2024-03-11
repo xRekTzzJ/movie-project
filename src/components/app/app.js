@@ -8,7 +8,7 @@ import Header from '../header';
 import MovieService from '../services/movie-service';
 export default class App extends Component {
   componentDidMount() {
-    this.getMovies('The');
+    this.getRatedMovies();
   }
   state = {
     movies: [],
@@ -71,7 +71,7 @@ export default class App extends Component {
       );
   };
   onHeaderButtonClick = (e) => {
-    e.key === '1' ? this.getMovies('The') : this.getRatedMovies();
+    e.key === '1' ? this.getMovies() : this.getRatedMovies();
   };
   renderErrorAlert = (error) => {
     return error ? (

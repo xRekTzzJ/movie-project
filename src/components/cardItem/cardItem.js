@@ -34,7 +34,7 @@ export default class CardItem extends Component {
               <Typography.Text className={scoreClasses}>{score}</Typography.Text>
             </Flex>
             <Typography.Text className="card__date">
-              {date ? format(new Date(date), 'MMMM dd, yyyy') : 'The date is not specified.'}
+              {date ? format(new Date(date), 'MMMM dd, yyyy') : 'The release date is not specified.'}
             </Typography.Text>
             <Flex align="start" gap={8}>
               <Typography.Text className="card__genre">Action</Typography.Text>
