@@ -71,11 +71,13 @@ export default class App extends Component {
       );
   };
   onHeaderButtonClick = (e) => {
-    e.key === '1' ? this.getMovies(this.state.inputValue) : this.getRatedMovies();
+    const { inputValue } = this.state;
+    e.key === '1' ? this.getMovies(inputValue) : this.getRatedMovies();
   };
   requestMovies = debounce(
     () => {
-      this.getMovies(this.state.inputValue.trim());
+      const { inputValue } = this.state;
+      this.getMovies(inputValue.trim());
     },
     700,
     { leading: true }

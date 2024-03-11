@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 export default class Header extends Component {
   render() {
     const { Header } = Layout;
+    const { onHeaderButtonClick, isRatedList } = this.props;
     const headerButtons = [
       { key: 1, label: 'Search' },
       { key: 2, label: 'Rated' },
@@ -10,10 +11,10 @@ export default class Header extends Component {
     return (
       <Header className="Header">
         <Menu
-          onClick={this.props.onHeaderButtonClick}
+          onClick={onHeaderButtonClick}
           mode="horizontal"
           defaultSelectedKeys={['2']}
-          selectedKeys={this.props.isRatedList ? ['2'] : ['1']}
+          selectedKeys={isRatedList ? ['2'] : ['1']}
           items={headerButtons}
         />
       </Header>
