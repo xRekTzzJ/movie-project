@@ -148,9 +148,9 @@ export default class App extends Component {
           className="pagination"
           defaultCurrent={page}
           current={page}
-          total={inputValue.length > 0 ? totalPages : 0}
+          total={inputValue.length > 0 || isRatedList ? totalPages : 0}
           showSizeChanger={false}
-          disabled={error || offline || inputValue.length === 0 ? true : false}
+          disabled={error || offline || (inputValue.length === 0 && !isRatedList) ? true : false}
           onChange={(pageNumber) => {
             this.onClickPagination(pageNumber, isRatedList, inputValue);
           }}
