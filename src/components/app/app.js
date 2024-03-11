@@ -71,7 +71,7 @@ export default class App extends Component {
       );
   };
   onHeaderButtonClick = (e) => {
-    e.key === '1' ? this.getMovies() : this.getRatedMovies();
+    e.key === '1' ? this.getMovies(this.state.inputValue) : this.getRatedMovies();
   };
   requestMovies = debounce(
     () => {
@@ -82,7 +82,7 @@ export default class App extends Component {
   );
   onInputChange = (e) => {
     this.setState({
-      inputValue: e.target.value,
+      inputValue: e.target.value.trim(),
       loading: true,
     });
     this.requestMovies();
@@ -126,7 +126,13 @@ export default class App extends Component {
     return (
       <section className="page">
         <Header isRatedList={isRatedList} onHeaderButtonClick={this.onHeaderButtonClick} />
-        <Input onChange={this.onInputChange} placeholder="Type to search..." className="input" value={inputValue} />
+        <Input
+          disabled={offline ? true : false}
+          onChange={this.onInputChange}
+          placeholder="Type to search..."
+          className="input"
+          value={inputValue}
+        />
         {this.renderSpinner(loading)}
         {this.renderErrorAlert(error)}
         <Online>{this.renderCardList(loading, error, movies, isRatedList, inputValue)}</Online>
@@ -142,9 +148,9 @@ export default class App extends Component {
           className="pagination"
           defaultCurrent={page}
           current={page}
-          total={totalPages}
+          total={inputValue.length > 0 ? totalPages : 0}
           showSizeChanger={false}
-          disabled={error || offline ? true : false}
+          disabled={error || offline || inputValue.length === 0 ? true : false}
           onChange={(pageNumber) => {
             this.onClickPagination(pageNumber, isRatedList, inputValue);
           }}
