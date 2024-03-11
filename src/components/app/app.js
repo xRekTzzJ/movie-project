@@ -73,6 +73,9 @@ export default class App extends Component {
   onHeaderButtonClick = (e) => {
     e.key === '1' ? this.getMovies() : this.getRatedMovies();
   };
+  onInputEnter = (e) => {
+    this.getMovies(e.target.value);
+  };
   renderErrorAlert = (error) => {
     return error ? (
       <Alert showIcon type="error" description="The error is on the server side. Please try again later." />
@@ -93,8 +96,8 @@ export default class App extends Component {
       />
     ) : null;
   };
-  renderCardList = (loading, error, movies, isRatedList) => {
-    return !loading && !error ? <CardList movies={movies} isRatedList={isRatedList} /> : null;
+  renderCardList = (loading, error, movies, isRatedList, inputValue) => {
+    return !loading && !error ? <CardList movies={movies} isRatedList={isRatedList} inputValue={inputValue} /> : null;
   };
   onClickPagination = (page, isRatedList, inputValue) => {
     isRatedList ? this.getRatedMovies(page) : this.getMovies(inputValue, page);
@@ -111,8 +114,8 @@ export default class App extends Component {
     const { movies, page, totalPages, isRatedList, inputValue, loading, error, offline } = this.state;
     return (
       <section className="page">
-        <Header onHeaderButtonClick={this.onHeaderButtonClick} />
-        <Input placeholder="Type to search..." className="input" />
+        <Header isRatedList={isRatedList} onHeaderButtonClick={this.onHeaderButtonClick} />
+        <Input onPressEnter={this.onInputEnter} placeholder="Type to search..." className="input" />
         {this.renderSpinner(loading)}
         {this.renderErrorAlert(error)}
         <Online>{this.renderCardList(loading, error, movies, isRatedList, inputValue)}</Online>

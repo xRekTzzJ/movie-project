@@ -13,6 +13,7 @@ export default class Header extends Component {
           onClick={this.props.onHeaderButtonClick}
           mode="horizontal"
           defaultSelectedKeys={['2']}
+          selectedKeys={this.props.isRatedList ? ['2'] : ['1']}
           items={headerButtons}
         />
       </Header>
