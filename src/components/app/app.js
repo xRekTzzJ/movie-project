@@ -13,6 +13,7 @@ export default class App extends Component {
     page: null,
     totalPages: null,
     name: null,
+    isRatedList: false,
   };
   getMovies = (name, page = 1) => {
     const movie = new MovieService();
@@ -22,8 +23,24 @@ export default class App extends Component {
         name,
         page: res.page,
         totalPages: res.total_pages,
+        isRatedList: false,
       })
     );
+  };
+  getRatedMovies = (page = 1) => {
+    const movie = new MovieService();
+    movie.getTrendMovies(page).then((res) =>
+      this.setState({
+        movies: res.results,
+        name: null,
+        page: res.page,
+        totalPages: res.total_pages,
+        isRatedList: true,
+      })
+    );
+  };
+  onHeaderButtonClick = (e) => {
+    e.key === '1' ? this.getMovies('The') : this.getRatedMovies();
   };
   render() {
     const { Header } = Layout;
@@ -37,6 +54,7 @@ export default class App extends Component {
               { key: 1, label: 'Searched' },
               { key: 2, label: 'Rated' },
             ]}
+            onClick={this.onHeaderButtonClick}
           ></Menu>
         </Header>
         <Input placeholder="Type to search..." className="input" />
@@ -57,10 +75,11 @@ export default class App extends Component {
         <Pagination
           className="pagination"
           defaultCurrent={this.state.page}
+          current={this.state.page}
           total={this.state.totalPages}
           showSizeChanger={false}
           onChange={(page) => {
-            this.getMovies(this.state.name, page);
+            this.state.isRatedList ? this.getRatedMovies(page) : this.getMovies(this.state.name, page);
           }}
         />
       </section>
