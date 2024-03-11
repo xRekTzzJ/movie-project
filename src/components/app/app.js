@@ -74,14 +74,10 @@ export default class App extends Component {
     const { inputValue } = this.state;
     e.key === '1' ? this.getMovies(inputValue) : this.getRatedMovies();
   };
-  requestMovies = debounce(
-    () => {
-      const { inputValue } = this.state;
-      this.getMovies(inputValue.trim());
-    },
-    700,
-    { leading: true }
-  );
+  requestMovies = debounce(() => {
+    const { inputValue } = this.state;
+    this.getMovies(inputValue.trim());
+  }, 700);
   onInputChange = (e) => {
     this.setState({
       inputValue: e.target.value,
