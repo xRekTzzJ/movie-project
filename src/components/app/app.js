@@ -1,5 +1,6 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { Alert, Input, Pagination, Spin } from 'antd';
+import { debounce } from 'lodash';
 import React, { Component } from 'react';
 import { Offline, Online } from 'react-detect-offline';
 
@@ -72,11 +73,19 @@ export default class App extends Component {
   onHeaderButtonClick = (e) => {
     e.key === '1' ? this.getMovies() : this.getRatedMovies();
   };
+  requestMovies = debounce(
+    () => {
+      this.getMovies(this.state.inputValue);
+    },
+    700,
+    { leading: true }
+  );
   onInputChange = (e) => {
-    this.getMovies(this.state.inputValue);
     this.setState({
       inputValue: e.target.value,
+      loading: true,
     });
+    this.requestMovies();
   };
   renderErrorAlert = (error) => {
     return error ? (
