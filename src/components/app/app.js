@@ -75,14 +75,14 @@ export default class App extends Component {
   };
   requestMovies = debounce(
     () => {
-      this.getMovies(this.state.inputValue);
+      this.getMovies(this.state.inputValue.trim());
     },
     700,
     { leading: true }
   );
   onInputChange = (e) => {
     this.setState({
-      inputValue: e.target.value.trim(),
+      inputValue: e.target.value,
       loading: true,
     });
     this.requestMovies();
