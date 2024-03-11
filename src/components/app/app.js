@@ -70,6 +70,32 @@ export default class App extends Component {
   onHeaderButtonClick = (e) => {
     e.key === '1' ? this.getMovies('The') : this.getRatedMovies();
   };
+  renderErrorAlert = (error) => {
+    return error ? (
+      <Alert showIcon type="error" description="The error is on the server side. Please try again later." />
+    ) : null;
+  };
+  renderSpinner = (loading) => {
+    return loading ? (
+      <Spin
+        size="large"
+        indicator={
+          <LoadingOutlined
+            style={{
+              fontSize: 50,
+            }}
+            spin
+          />
+        }
+      />
+    ) : null;
+  };
+  renderCardList = (loading, error, movies) => {
+    return !loading && !error ? <CardList movies={movies} /> : null;
+  };
+  onClickPagination = (page, isRatedList, name) => {
+    isRatedList ? this.getRatedMovies(page) : this.getMovies(name, page);
+  };
   movie = new MovieService();
   render() {
     const { movies, page, totalPages, isRatedList, name, loading, error } = this.state;
@@ -77,23 +103,9 @@ export default class App extends Component {
       <section className="page">
         <Header onHeaderButtonClick={this.onHeaderButtonClick} />
         <Input placeholder="Type to search..." className="input" />
-        {loading ? (
-          <Spin
-            size="large"
-            indicator={
-              <LoadingOutlined
-                style={{
-                  fontSize: 50,
-                }}
-                spin
-              />
-            }
-          />
-        ) : null}
-        {error ? (
-          <Alert showIcon type="error" description="The error is on the server side. Please try again later." />
-        ) : null}
-        {!loading && !error ? <CardList movies={movies} /> : null}
+        {this.renderSpinner(loading)}
+        {this.renderErrorAlert(error)}
+        {this.renderCardList(loading, error, movies)}
         <Pagination
           className="pagination"
           defaultCurrent={page}
@@ -101,8 +113,8 @@ export default class App extends Component {
           total={totalPages}
           showSizeChanger={false}
           disabled={error ? true : false}
-          onChange={(page) => {
-            isRatedList ? this.getRatedMovies(page) : this.getMovies(name, page);
+          onChange={(pageNumber) => {
+            this.onClickPagination(pageNumber, isRatedList, name);
           }}
         />
       </section>
