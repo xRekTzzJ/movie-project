@@ -21,7 +21,10 @@ export default class App extends Component {
     offline: false,
     inputValue: '',
   };
+  //API
+  movie = new MovieService();
 
+  //Получить фильмы по запросу в форме
   getMovies = (inputValue, page = 1) => {
     this.setState({
       loading: true,
@@ -46,6 +49,8 @@ export default class App extends Component {
         })
       );
   };
+
+  //Получить рейтинговые фильмы
   getRatedMovies = (page = 1) => {
     this.setState({
       loading: true,
@@ -70,14 +75,20 @@ export default class App extends Component {
         })
       );
   };
+
+  //Слушатель клика на хедере
   onHeaderButtonClick = (e) => {
     const { inputValue } = this.state;
     e.key === '1' ? this.getMovies(inputValue) : this.getRatedMovies();
   };
+
+  //Отправка запроса из формы
   requestMovies = debounce(() => {
     const { inputValue } = this.state;
     this.getMovies(inputValue.trim());
   }, 700);
+
+  //Слушатель инпута
   onInputChange = (e) => {
     this.setState({
       inputValue: e.target.value,
@@ -85,11 +96,15 @@ export default class App extends Component {
     });
     this.requestMovies();
   };
+
+  //Отрендерить сообщение об ошибке сервера
   renderErrorAlert = (error) => {
     return error ? (
       <Alert showIcon type="error" description="The error is on the server side. Please try again later." />
     ) : null;
   };
+
+  //Отрендерить сообщение о потере соединения
   renderOfflineAlert = () => {
     return (
       <Alert
@@ -100,6 +115,8 @@ export default class App extends Component {
       />
     );
   };
+
+  //Рендер спиннера
   renderSpinner = (loading) => {
     return loading ? (
       <Spin
@@ -115,12 +132,18 @@ export default class App extends Component {
       />
     ) : null;
   };
+
+  //Рендер списка фильмов
   renderCardList = (loading, error, movies, isRatedList, inputValue) => {
     return !loading && !error ? <CardList movies={movies} isRatedList={isRatedList} inputValue={inputValue} /> : null;
   };
+
+  //По нажатию пагинации
   onClickPagination = (page, isRatedList, inputValue) => {
     isRatedList ? this.getRatedMovies(page) : this.getMovies(inputValue, page);
   };
+
+  //Слушатель потери соединения
   lostConnectionHandler = () => {
     this.setState(({ offline }) => {
       return {
@@ -128,7 +151,8 @@ export default class App extends Component {
       };
     });
   };
-  movie = new MovieService();
+
+  //Рендер приложения
   render() {
     const { movies, page, totalPages, isRatedList, inputValue, loading, error, offline } = this.state;
     return (

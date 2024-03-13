@@ -2,7 +2,7 @@ import { Card, Flex, Rate, Typography } from 'antd';
 import { format } from 'date-fns';
 import React, { Component } from 'react';
 
-import brokenImage from './brokenImage.png';
+import brokenImage from './brokenImage.png'; //Картинка сломанного изображения
 export default class CardItem extends Component {
   render() {
     const { title, score, date, desc, image } = this.props;

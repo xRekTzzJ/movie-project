@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 
 import CardItem from '../cardItem';
 export default class CardList extends Component {
+  //Отрендерить фильмы
   renderMovies = () => {
     const { movies } = this.props;
     return movies.map((i) => {
@@ -18,6 +19,8 @@ export default class CardList extends Component {
       );
     });
   };
+
+  //Сообщение notFound
   notFoundAlert = () => {
     return (
       <Alert
@@ -27,6 +30,8 @@ export default class CardList extends Component {
       />
     );
   };
+
+  //Сообщение о пустой форме запроса
   emptyInputAlert = () => {
     return (
       <Alert
@@ -36,6 +41,8 @@ export default class CardList extends Component {
       />
     );
   };
+
+  //Рендер контейнера списка фильмов
   renderWrapper = () => {
     const { movies } = this.props;
     return movies.length > 0 ? (
@@ -46,6 +53,8 @@ export default class CardList extends Component {
       this.notFoundAlert()
     );
   };
+
+  //Рендер списка фильмов
   render() {
     const { isRatedList, inputValue } = this.props;
     return inputValue || isRatedList ? this.renderWrapper() : this.emptyInputAlert();
