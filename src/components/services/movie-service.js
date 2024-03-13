@@ -9,8 +9,8 @@ export default class MovieService {
     },
   };
 
-  //Получить рейтинговые фильмы
-  async getRatedMovies(page = 1) {
+  //Получить трендовые фильмы
+  async getTrendMovies(page = 1) {
     const res = await fetch(`https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=${page}`, this.options);
     return res.json();
   }

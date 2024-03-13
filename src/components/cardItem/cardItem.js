@@ -11,7 +11,13 @@ export default class CardItem extends Component {
     if (score >= 7) {
       scoreClasses += ' card__score_green';
     }
-    if (score < 4) {
+    if (score >= 5 && score < 7) {
+      scoreClasses += ' card__score_yellow';
+    }
+    if (score > 3 && score < 5) {
+      scoreClasses += ' card__score_orange';
+    }
+    if (score <= 3) {
       scoreClasses += ' card__score_red';
     }
     if (!image) {

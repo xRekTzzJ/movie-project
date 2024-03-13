@@ -13,7 +13,6 @@ export default class Header extends Component {
         <Menu
           onClick={onHeaderButtonClick}
           mode="horizontal"
-          defaultSelectedKeys={['2']}
           selectedKeys={isRatedList ? ['2'] : ['1']}
           items={headerButtons}
         />

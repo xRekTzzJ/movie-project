@@ -9,7 +9,7 @@ import Header from '../header';
 import MovieService from '../services/movie-service';
 export default class App extends Component {
   componentDidMount() {
-    this.getRatedMovies();
+    this.getTrendMovies();
   }
   state = {
     movies: null,
@@ -50,13 +50,13 @@ export default class App extends Component {
       );
   };
 
-  //Получить рейтинговые фильмы
-  getRatedMovies = (page = 1) => {
+  //Получить трендовые фильмы
+  getTrendMovies = (page = 1) => {
     this.setState({
       loading: true,
     });
     this.movie
-      .getRatedMovies(page)
+      .getTrendMovies(page)
       .then((res) =>
         this.setState({
           movies: res.results,
@@ -79,7 +79,7 @@ export default class App extends Component {
   //Слушатель клика на хедере
   onHeaderButtonClick = (e) => {
     const { inputValue } = this.state;
-    e.key === '1' ? this.getMovies(inputValue) : this.getRatedMovies();
+    e.key === '1' ? this.getMovies(inputValue) : this.getTrendMovies();
   };
 
   //Отправка запроса из формы
@@ -140,7 +140,7 @@ export default class App extends Component {
 
   //По нажатию пагинации
   onClickPagination = (page, isRatedList, inputValue) => {
-    isRatedList ? this.getRatedMovies(page) : this.getMovies(inputValue, page);
+    isRatedList ? this.getTrendMovies(page) : this.getMovies(inputValue, page);
   };
 
   //Слушатель потери соединения

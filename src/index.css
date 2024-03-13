@@ -17,3 +17,5 @@
 @import url(./styles/ant-pagination-item-active/ant-pagination-item-active.css);
 @import url(./styles/ant-pagination/ant-pagination.css);
 @import url(./styles/card/__image/_broken/card__image_broken.css);
+@import url(./styles/card/__score/_orange/card__score_orange.css);
+@import url(./styles/card/__score/_yellow/card__score_yellow.css);
