@@ -44,9 +44,10 @@ export default class CardList extends Component {
 
   //Рендер контейнера списка фильмов
   renderWrapper = () => {
-    const { movies } = this.props;
+    const { movies, isRatedList } = this.props;
+    const listClasses = isRatedList ? 'card-list card-list_rated' : 'card-list';
     return movies.length > 0 ? (
-      <Flex wrap="wrap" gap={33} justify="space-between" className="card-list">
+      <Flex wrap="wrap" gap={33} justify="space-between" className={listClasses}>
         {this.renderMovies()}
       </Flex>
     ) : (

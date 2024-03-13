@@ -10,6 +10,7 @@ import MovieService from '../services/movie-service';
 export default class App extends Component {
   componentDidMount() {
     this.getTrendMovies();
+    console.log(this.movie.createGuestSession());
   }
   state = {
     movies: null,
@@ -158,13 +159,15 @@ export default class App extends Component {
     return (
       <section className="page">
         <Header isRatedList={isRatedList} onHeaderButtonClick={this.onHeaderButtonClick} />
-        <Input
-          disabled={offline ? true : false}
-          onChange={this.onInputChange}
-          placeholder="Type to search..."
-          className="input"
-          value={inputValue}
-        />
+        {isRatedList ? null : (
+          <Input
+            disabled={offline ? true : false}
+            onChange={this.onInputChange}
+            placeholder="Type to search..."
+            className="input"
+            value={inputValue}
+          />
+        )}
         {this.renderSpinner(loading)}
         {this.renderErrorAlert(error)}
         <Online>{this.renderCardList(loading, error, movies, isRatedList, inputValue)}</Online>
