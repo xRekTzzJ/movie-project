@@ -15,6 +15,9 @@ export default class CardList extends Component {
           score={i.vote_average.toFixed(1)}
           date={i.release_date}
           desc={i.overview}
+          id={i.id}
+          onAddRating={this.props.onAddRating}
+          rating={i.rating}
         />
       );
     });
@@ -24,8 +27,22 @@ export default class CardList extends Component {
   notFoundAlert = () => {
     return (
       <Alert
+        className="alert"
         message="No movies were found for this query."
         description="Please change the request and try again."
+        type="warning"
+      />
+    );
+  };
+
+  //Сообщение noRated
+  noRated = () => {
+    return (
+      <Alert
+        className="alert"
+        message="You haven't rated a single
+        movie yet."
+        description="Rate the movie and it will appear here."
         type="warning"
       />
     );
@@ -35,6 +52,7 @@ export default class CardList extends Component {
   emptyInputAlert = () => {
     return (
       <Alert
+        className="alert"
         message="The request fields cannot be empty."
         description="Enter the query in the input field."
         type="warning"
@@ -50,6 +68,8 @@ export default class CardList extends Component {
       <Flex wrap="wrap" gap={33} justify="space-between" className={listClasses}>
         {this.renderMovies()}
       </Flex>
+    ) : isRatedList ? (
+      this.noRated()
     ) : (
       this.notFoundAlert()
     );

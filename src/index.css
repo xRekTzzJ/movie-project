@@ -20,3 +20,6 @@
 @import url(./styles/card/__score/_orange/card__score_orange.css);
 @import url(./styles/card/__score/_yellow/card__score_yellow.css);
 @import url(./styles/card-list/_rated/card-list_rated.css);
+.alert {
+  margin-top: 20px;
+}

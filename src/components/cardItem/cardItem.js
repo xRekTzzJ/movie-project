@@ -4,6 +4,9 @@ import React, { Component } from 'react';
 
 import brokenImage from './brokenImage.png'; //Картинка сломанного изображения
 export default class CardItem extends Component {
+  state = {
+    rating: this.props.rating,
+  };
   render() {
     const { title, score, date, desc, image } = this.props;
     let scoreClasses = 'card__score';
@@ -23,7 +26,6 @@ export default class CardItem extends Component {
     if (!image) {
       imageClasses += ' card__image_broken';
     }
-
     return (
       <Card>
         <Flex gap={20}>
@@ -54,7 +56,18 @@ export default class CardItem extends Component {
             >
               {desc ? desc : 'There is no description yet.'}
             </Typography.Paragraph>
-            <Rate allowHalf={true} count={10} defaultValue={Math.round(score * 2) / 2} />
+            <Rate
+              allowHalf={true}
+              value={this.state.rating}
+              count={10}
+              defaultValue={this.props.rating}
+              onChange={(e) => {
+                this.props.onAddRating(this.props.id, e);
+                this.setState({
+                  rating: e,
+                });
+              }}
+            />
           </Flex>
         </Flex>
       </Card>

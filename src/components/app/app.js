@@ -10,7 +10,6 @@ import MovieService from '../services/movie-service';
 export default class App extends Component {
   componentDidMount() {
     this.getTrendMovies();
-    console.log(this.movie.createGuestSession());
   }
   state = {
     movies: null,
@@ -136,7 +135,9 @@ export default class App extends Component {
 
   //Рендер списка фильмов
   renderCardList = (loading, error, movies, isRatedList, inputValue) => {
-    return !loading && !error ? <CardList movies={movies} isRatedList={isRatedList} inputValue={inputValue} /> : null;
+    return !loading && !error ? (
+      <CardList movies={movies} isRatedList={isRatedList} inputValue={inputValue} onAddRating={this.movie.addRating} />
+    ) : null;
   };
 
   //По нажатию пагинации
