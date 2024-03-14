@@ -7,6 +7,15 @@ export default class CardItem extends Component {
   state = {
     rating: this.props.rating,
   };
+  componentDidMount() {
+    try {
+      JSON.parse(localStorage.getItem('ratedFilms')).map((i) => {
+        if (i.id === this.props.id) this.setState({ rating: i.rating });
+      });
+    } catch (error) {
+      return;
+    }
+  }
   render() {
     const { title, score, date, desc, image } = this.props;
     let scoreClasses = 'card__score';

@@ -31,17 +31,17 @@ export default class App extends Component {
     });
     this.movie
       .getMovies(inputValue, page)
-      .then((res) =>
+      .then((res) => {
         this.setState({
           movies: res.results,
           page: res.page,
-          totalPages: res.total_pages,
+          totalPages: res.total_pages * 10, //какой-то баг с пагинацией, она делит total на 10
           isRatedList: false,
           loading: false,
           error: false,
           Offline: false,
-        })
-      )
+        });
+      })
       .catch(() =>
         this.setState({
           error: true,
@@ -57,17 +57,18 @@ export default class App extends Component {
     });
     this.movie
       .getTrendMovies(page)
-      .then((res) =>
+      .then((res) => {
+        localStorage.setItem('ratedFilms', JSON.stringify(res.results));
         this.setState({
           movies: res.results,
           inputValue: '',
           page: res.page,
-          totalPages: res.total_pages,
+          totalPages: res.total_pages * 10, //какой-то баг с пагинацией, она делит total на 10
           isRatedList: true,
           loading: false,
           error: false,
-        })
-      )
+        });
+      })
       .catch(() =>
         this.setState({
           error: true,
@@ -132,11 +133,17 @@ export default class App extends Component {
       />
     ) : null;
   };
-
+  //Слушатель добавления оценки
+  onAddRating = async (id, value) => {
+    await this.movie.addRating(id, value);
+    this.movie.getTrendMovies(1).then((res) => {
+      localStorage.setItem('ratedFilms', JSON.stringify(res.results));
+    });
+  };
   //Рендер списка фильмов
   renderCardList = (loading, error, movies, isRatedList, inputValue) => {
     return !loading && !error ? (
-      <CardList movies={movies} isRatedList={isRatedList} inputValue={inputValue} onAddRating={this.movie.addRating} />
+      <CardList movies={movies} isRatedList={isRatedList} inputValue={inputValue} onAddRating={this.onAddRating} />
     ) : null;
   };
 
@@ -175,7 +182,6 @@ export default class App extends Component {
         <Offline onChange={this.lostConnectionHandler}>{this.renderOfflineAlert()}</Offline>
         <Pagination
           className="pagination"
-          defaultCurrent={page}
           current={page}
           total={inputValue.length > 0 || isRatedList ? totalPages : 0}
           showSizeChanger={false}
