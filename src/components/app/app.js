@@ -9,7 +9,7 @@ import Header from '../header';
 import MovieService from '../services/movie-service';
 export default class App extends Component {
   componentDidMount() {
-    this.getTrendMovies();
+    this.getRatedMovies();
   }
   state = {
     movies: null,
@@ -50,13 +50,13 @@ export default class App extends Component {
       );
   };
 
-  //Получить трендовые фильмы
-  getTrendMovies = (page = 1) => {
+  //Получить оцененные фильмы
+  getRatedMovies = (page = 1) => {
     this.setState({
       loading: true,
     });
     this.movie
-      .getTrendMovies(page)
+      .getRatedMovies(page)
       .then((res) => {
         localStorage.setItem('ratedFilms', JSON.stringify(res.results));
         this.setState({
@@ -80,7 +80,7 @@ export default class App extends Component {
   //Слушатель клика на хедере
   onHeaderButtonClick = (e) => {
     const { inputValue } = this.state;
-    e.key === '1' ? this.getMovies(inputValue) : this.getTrendMovies();
+    e.key === '1' ? this.getMovies(inputValue) : this.getRatedMovies();
   };
 
   //Отправка запроса из формы
@@ -136,15 +136,18 @@ export default class App extends Component {
   //Слушатель добавления оценки
   onAddRating = async (id, value) => {
     await this.movie.addRating(id, value);
-    this.movie.getTrendMovies(1).then((res) => {
+    this.movie.getRatedMovies(1).then((res) => {
       localStorage.setItem('ratedFilms', JSON.stringify(res.results));
     });
   };
   //Слушатель удаления оценки
   onDeleteRating = async (id) => {
     await this.movie.deleteRating(id);
-    this.movie.getTrendMovies(1).then((res) => {
-      localStorage.setItem('ratedFilms', JSON.stringify(res.results));
+    this.setState(({ movies }) => {
+      const index = movies.findIndex((i) => i.id === id);
+      return {
+        movies: [...movies.slice(0, index), ...movies.slice(index + 1)],
+      };
     });
   };
   //Рендер списка фильмов
@@ -162,7 +165,7 @@ export default class App extends Component {
 
   //По нажатию пагинации
   onClickPagination = (page, isRatedList, inputValue) => {
-    isRatedList ? this.getTrendMovies(page) : this.getMovies(inputValue, page);
+    isRatedList ? this.getRatedMovies(page) : this.getMovies(inputValue, page);
   };
 
   //Слушатель потери соединения

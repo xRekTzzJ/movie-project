@@ -1,12 +1,13 @@
 export default class MovieService {
   url = 'https://api.themoviedb.org/3';
+  authorization =
+    'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxOWJlM2UzYWJmYWNmYTM3NDhjYjg1MjA3MjNmZDY3NCIsInN1YiI6IjY1ZWQ1ZmFiNDQ3ZjljMDE2NDVmOTQzMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ._sDORt3oFzSRlsqWyW-h6uQL_gs0bWG1nMaXd_oxf4E';
   //Опции GET запроса
   optionsGET = {
     method: 'GET',
     headers: {
       accept: 'application/json',
-      Authorization:
-        'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxOWJlM2UzYWJmYWNmYTM3NDhjYjg1MjA3MjNmZDY3NCIsInN1YiI6IjY1ZWQ1ZmFiNDQ3ZjljMDE2NDVmOTQzMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ._sDORt3oFzSRlsqWyW-h6uQL_gs0bWG1nMaXd_oxf4E',
+      Authorization: this.authorization,
     },
   };
 
@@ -25,8 +26,7 @@ export default class MovieService {
       headers: {
         accept: 'application/json',
         'Content-Type': 'application/json;charset=utf-8',
-        Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxOWJlM2UzYWJmYWNmYTM3NDhjYjg1MjA3MjNmZDY3NCIsInN1YiI6IjY1ZWQ1ZmFiNDQ3ZjljMDE2NDVmOTQzMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ._sDORt3oFzSRlsqWyW-h6uQL_gs0bWG1nMaXd_oxf4E',
+        Authorization: this.authorization,
       },
       body: `{"value":${value}}`,
     };
@@ -43,8 +43,7 @@ export default class MovieService {
       headers: {
         accept: 'application/json',
         'Content-Type': 'application/json;charset=utf-8',
-        Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxOWJlM2UzYWJmYWNmYTM3NDhjYjg1MjA3MjNmZDY3NCIsInN1YiI6IjY1ZWQ1ZmFiNDQ3ZjljMDE2NDVmOTQzMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ._sDORt3oFzSRlsqWyW-h6uQL_gs0bWG1nMaXd_oxf4E',
+        Authorization: this.authorization,
       },
     };
 
@@ -53,8 +52,8 @@ export default class MovieService {
     return data;
   }
 
-  //Получить трендовые фильмы
-  async getTrendMovies(page = 1) {
+  //Получить оцененные фильмы
+  async getRatedMovies(page = 1) {
     const response = await fetch(
       `https://api.themoviedb.org/3/account/21082579/rated/movies?language=en-US&page=${page}&sort_by=created_at.asc`,
       this.optionsGET

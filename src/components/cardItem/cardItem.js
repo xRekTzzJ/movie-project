@@ -6,6 +6,7 @@ import brokenImage from './brokenImage.png'; //Картинка сломанно
 export default class CardItem extends Component {
   state = {
     rating: this.props.rating,
+    isUnrated: false,
   };
   componentDidMount() {
     try {
@@ -35,7 +36,7 @@ export default class CardItem extends Component {
     if (!image) {
       imageClasses += ' card__image_broken';
     }
-    return (
+    return this.state.isUnrated ? null : (
       <Card>
         <Flex gap={20}>
           <img
@@ -75,6 +76,7 @@ export default class CardItem extends Component {
                   this.props.onDeleteRating(this.props.id);
                   this.setState({
                     rating: e,
+                    isUnrated: true,
                   });
                 } else {
                   this.props.onAddRating(this.props.id, e);
