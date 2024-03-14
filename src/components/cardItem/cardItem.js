@@ -71,10 +71,17 @@ export default class CardItem extends Component {
               count={10}
               defaultValue={this.props.rating}
               onChange={(e) => {
-                this.props.onAddRating(this.props.id, e);
-                this.setState({
-                  rating: e,
-                });
+                if (e === 0) {
+                  this.props.onDeleteRating(this.props.id);
+                  this.setState({
+                    rating: e,
+                  });
+                } else {
+                  this.props.onAddRating(this.props.id, e);
+                  this.setState({
+                    rating: e,
+                  });
+                }
               }}
             />
           </Flex>

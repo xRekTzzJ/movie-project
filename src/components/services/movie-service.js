@@ -31,7 +31,24 @@ export default class MovieService {
       body: `{"value":${value}}`,
     };
 
-    const response = await fetch(`https://api.themoviedb.org/3/movie/${id}/rating`, options);
+    const response = await fetch(`${this.url}/movie/${id}/rating`, options);
+    const data = await response.json();
+    return data;
+  }
+
+  //удалить оценку
+  async deleteRating(id) {
+    const options = {
+      method: 'DELETE',
+      headers: {
+        accept: 'application/json',
+        'Content-Type': 'application/json;charset=utf-8',
+        Authorization:
+          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxOWJlM2UzYWJmYWNmYTM3NDhjYjg1MjA3MjNmZDY3NCIsInN1YiI6IjY1ZWQ1ZmFiNDQ3ZjljMDE2NDVmOTQzMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ._sDORt3oFzSRlsqWyW-h6uQL_gs0bWG1nMaXd_oxf4E',
+      },
+    };
+
+    const response = await fetch(`${this.url}/movie/${id}/rating`, options);
     const data = await response.json();
     return data;
   }

@@ -17,6 +17,7 @@ export default class CardList extends Component {
           desc={i.overview}
           id={i.id}
           onAddRating={this.props.onAddRating}
+          onDeleteRating={this.props.onDeleteRating}
           rating={i.rating}
         />
       );

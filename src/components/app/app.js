@@ -140,10 +140,23 @@ export default class App extends Component {
       localStorage.setItem('ratedFilms', JSON.stringify(res.results));
     });
   };
+  //Слушатель удаления оценки
+  onDeleteRating = async (id) => {
+    await this.movie.deleteRating(id);
+    this.movie.getTrendMovies(1).then((res) => {
+      localStorage.setItem('ratedFilms', JSON.stringify(res.results));
+    });
+  };
   //Рендер списка фильмов
   renderCardList = (loading, error, movies, isRatedList, inputValue) => {
     return !loading && !error ? (
-      <CardList movies={movies} isRatedList={isRatedList} inputValue={inputValue} onAddRating={this.onAddRating} />
+      <CardList
+        movies={movies}
+        isRatedList={isRatedList}
+        inputValue={inputValue}
+        onAddRating={this.onAddRating}
+        onDeleteRating={this.onDeleteRating}
+      />
     ) : null;
   };
 
