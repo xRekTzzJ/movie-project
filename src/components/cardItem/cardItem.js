@@ -9,12 +9,10 @@ export default class CardItem extends Component {
     isUnrated: false,
   };
   componentDidMount() {
-    try {
-      JSON.parse(localStorage.getItem('ratedFilms')).map((i) => {
-        if (i.id === this.props.id) this.setState({ rating: i.rating });
+    if (localStorage.getItem(this.props.id)) {
+      this.setState({
+        rating: Number(localStorage.getItem(this.props.id)),
       });
-    } catch (error) {
-      return;
     }
   }
   render() {
@@ -70,14 +68,19 @@ export default class CardItem extends Component {
               allowHalf={true}
               value={this.state.rating}
               count={10}
-              defaultValue={this.props.rating}
               onChange={(e) => {
                 if (e === 0) {
                   this.props.onDeleteRating(this.props.id);
-                  this.setState({
-                    rating: e,
-                    isUnrated: true,
-                  });
+                  if (this.props.isRatedList) {
+                    this.setState({
+                      rating: e,
+                      isUnrated: true,
+                    });
+                  } else {
+                    this.setState({
+                      rating: e,
+                    });
+                  }
                 } else {
                   this.props.onAddRating(this.props.id, e);
                   this.setState({

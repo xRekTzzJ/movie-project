@@ -19,6 +19,7 @@ export default class App extends Component {
     page: null,
     totalPages: null,
     isRatedList: true,
+    emptyRated: false,
     loading: true,
     error: false,
     offline: false,
@@ -42,7 +43,7 @@ export default class App extends Component {
         this.setState({
           movies: res.results,
           page: res.page,
-          totalPages: res.total_pages * 10, //какой-то баг с пагинацией, она делит total на 10
+          totalPages: isNaN(res.totalPages) ? 1 : res.total_pages * 10, //какой-то баг с пагинацией, она делит total на 10
           isRatedList: false,
           loading: false,
           error: false,
@@ -65,23 +66,26 @@ export default class App extends Component {
     this.movie
       .getRatedMovies(page)
       .then((res) => {
-        localStorage.setItem('ratedFilms', JSON.stringify(res.results));
         this.setState({
           movies: res.results,
           inputValue: '',
           page: res.page,
-          totalPages: res.total_pages * 10, //какой-то баг с пагинацией, она делит total на 10
+          totalPages: isNaN(res.totalPages) ? 1 : res.total_pages * 10, //какой-то баг с пагинацией, она делит total на 10
           isRatedList: true,
           loading: false,
           error: false,
         });
       })
-      .catch(() =>
-        this.setState({
-          error: true,
-          loading: false,
-        })
-      );
+      .catch((er) => {
+        if (er.message === '404') this.setState({ emptyRated: true, loading: false });
+        else {
+          this.setState({
+            error: true,
+            loading: false,
+          });
+        }
+        localStorage.clear();
+      });
   };
 
   //Слушатель клика на хедере
@@ -143,24 +147,26 @@ export default class App extends Component {
   //Слушатель добавления оценки
   onAddRating = async (id, value) => {
     await this.movie.addRating(id, value);
-    this.movie.getRatedMovies(1).then((res) => {
-      localStorage.setItem('ratedFilms', JSON.stringify(res.results));
-    });
+    localStorage.setItem(`${id}`, `${value}`);
   };
   //Слушатель удаления оценки
   onDeleteRating = async (id) => {
+    localStorage.removeItem(`${id}`);
     await this.movie.deleteRating(id);
-    this.setState(({ movies }) => {
-      const index = movies.findIndex((i) => i.id === id);
-      return {
-        movies: [...movies.slice(0, index), ...movies.slice(index + 1)],
-      };
-    });
+    if (this.state.isRatedList) {
+      this.setState(({ movies }) => {
+        const index = movies.findIndex((i) => i.id === id);
+        return {
+          movies: [...movies.slice(0, index), ...movies.slice(index + 1)],
+        };
+      });
+    }
   };
   //Рендер списка фильмов
-  renderCardList = (loading, error, movies, isRatedList, inputValue) => {
+  renderCardList = (loading, error, movies, isRatedList, inputValue, emptyRated) => {
     return !loading && !error ? (
       <CardList
+        emptyRated={emptyRated}
         movies={movies}
         isRatedList={isRatedList}
         inputValue={inputValue}
@@ -186,7 +192,7 @@ export default class App extends Component {
 
   //Рендер приложения
   render() {
-    const { movies, page, totalPages, isRatedList, inputValue, loading, error, offline } = this.state;
+    const { movies, page, totalPages, isRatedList, inputValue, loading, error, offline, emptyRated } = this.state;
     return (
       <section className="page">
         <Header isRatedList={isRatedList} onHeaderButtonClick={this.onHeaderButtonClick} />
@@ -201,7 +207,7 @@ export default class App extends Component {
         )}
         {this.renderSpinner(loading)}
         {this.renderErrorAlert(error)}
-        <Online>{this.renderCardList(loading, error, movies, isRatedList, inputValue)}</Online>
+        <Online>{this.renderCardList(loading, error, movies, isRatedList, inputValue, emptyRated)}</Online>
         <Offline onChange={this.lostConnectionHandler}>{this.renderOfflineAlert()}</Offline>
         <Pagination
           className="pagination"

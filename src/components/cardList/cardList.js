@@ -17,6 +17,7 @@ export default class CardList extends Component {
           desc={i.overview}
           id={i.id}
           onAddRating={this.props.onAddRating}
+          isRatedList={this.props.isRatedList}
           onDeleteRating={this.props.onDeleteRating}
           rating={i.rating}
         />
@@ -65,15 +66,19 @@ export default class CardList extends Component {
   renderWrapper = () => {
     const { movies, isRatedList } = this.props;
     const listClasses = isRatedList ? 'card-list card-list_rated' : 'card-list';
-    return movies.length > 0 ? (
-      <Flex wrap="wrap" gap={33} justify="space-between" className={listClasses}>
-        {this.renderMovies()}
-      </Flex>
-    ) : isRatedList ? (
-      this.noRated()
-    ) : (
-      this.notFoundAlert()
-    );
+    try {
+      return movies.length > 0 ? (
+        <Flex wrap="wrap" gap={33} justify="space-between" className={listClasses}>
+          {this.renderMovies()}
+        </Flex>
+      ) : isRatedList ? (
+        this.noRated()
+      ) : (
+        this.notFoundAlert()
+      );
+    } catch (error) {
+      return this.noRated();
+    }
   };
 
   //Рендер списка фильмов
