@@ -2,6 +2,8 @@ export default class MovieService {
   url = 'https://api.themoviedb.org/3';
   authorization =
     'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxOWJlM2UzYWJmYWNmYTM3NDhjYjg1MjA3MjNmZDY3NCIsInN1YiI6IjY1ZWQ1ZmFiNDQ3ZjljMDE2NDVmOTQzMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ._sDORt3oFzSRlsqWyW-h6uQL_gs0bWG1nMaXd_oxf4E';
+  guestSessionId = '';
+  guestSessionExpires = '';
   //Опции GET запроса
   optionsGET = {
     method: 'GET',
@@ -16,7 +18,9 @@ export default class MovieService {
     const response = await fetch(`${this.url}/authentication/guest_session/new`, this.optionsGET);
     if (!response.ok) throw new Error(response.status);
     const data = await response.json();
-    return data;
+    this.guestSessionExpires = new Date(data.expires_at);
+    this.guestSessionId = data.guest_session_id;
+    document.cookie = `sessionId=${this.guestSessionId}; expires=${this.guestSessionExpires}`;
   }
 
   //Поставить оценку

@@ -9,6 +9,9 @@ import Header from '../header';
 import MovieService from '../services/movie-service';
 export default class App extends Component {
   componentDidMount() {
+    if (!this.state.hasGuestSession) {
+      this.movie.createGuestSession();
+    }
     this.getRatedMovies();
   }
   state = {
@@ -20,6 +23,10 @@ export default class App extends Component {
     error: false,
     offline: false,
     inputValue: '',
+    hasGuestSession: document.cookie.split('; ').find((el) => {
+      const arr = el.split('=');
+      return arr[0] === 'sessionId';
+    }),
   };
   //API
   movie = new MovieService();
