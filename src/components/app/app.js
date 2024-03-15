@@ -10,6 +10,7 @@ import MovieService from '../services/movie-service';
 export default class App extends Component {
   componentDidMount() {
     if (!this.state.hasGuestSession) {
+      localStorage.clear();
       this.movie.createGuestSession();
     }
     this.getMovies();

@@ -31,8 +31,7 @@ export default class MovieService {
     if (!response.ok) throw new Error(response.status);
     const data = await response.json();
     this.guestSessionExpires = new Date(data.expires_at);
-    this.guestSessionId = data.guest_session_id;
-    document.cookie = `sessionId=${this.guestSessionId}; expires=${this.guestSessionExpires}`;
+    document.cookie = `sessionId=${data.guest_session_id}; expires=${this.guestSessionExpires}`;
   }
 
   //Поставить оценку
