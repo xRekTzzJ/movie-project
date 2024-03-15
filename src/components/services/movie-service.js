@@ -85,7 +85,7 @@ export default class MovieService {
   //Получить фильмы по запросу формы
   async getMovies(request, page = 1) {
     const response = await fetch(
-      `${this.url}/search/movie?query=${request}&include_adult=false&language=en-US&page=${page}`,
+      `${this.url}/search/movie?query=${request}&include_adult=true&language=en-US&page=${page}`,
       this.optionsGET
     );
     if (!response.ok) throw new Error(response.status);

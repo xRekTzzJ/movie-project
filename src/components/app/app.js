@@ -12,18 +12,17 @@ export default class App extends Component {
     if (!this.state.hasGuestSession) {
       this.movie.createGuestSession();
     }
-    this.getRatedMovies();
+    this.getMovies();
   }
   state = {
     movies: null,
     page: null,
     totalPages: null,
-    isRatedList: true,
     emptyRated: false,
     loading: true,
     error: false,
     offline: false,
-    inputValue: '',
+    inputValue: 'return',
     hasGuestSession: document.cookie.split('; ').find((el) => {
       const arr = el.split('=');
       return arr[0] === 'sessionId';
@@ -33,7 +32,7 @@ export default class App extends Component {
   movie = new MovieService();
 
   //Получить фильмы по запросу в форме
-  getMovies = (inputValue, page = 1) => {
+  getMovies = (inputValue = this.state.inputValue, page = 1) => {
     this.setState({
       loading: true,
     });
@@ -90,8 +89,7 @@ export default class App extends Component {
 
   //Слушатель клика на хедере
   onHeaderButtonClick = (e) => {
-    const { inputValue } = this.state;
-    e.key === '1' ? this.getMovies(inputValue) : this.getRatedMovies();
+    e.key === '1' ? this.getMovies() : this.getRatedMovies();
   };
 
   //Отправка запроса из формы
