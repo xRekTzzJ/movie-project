@@ -42,8 +42,8 @@ export default class App extends Component {
       .then((res) => {
         this.setState({
           movies: res.results,
-          page: res.page,
-          totalPages: isNaN(res.totalPages) ? 1 : res.total_pages * 10, //какой-то баг с пагинацией, она делит total на 10
+          page: res.page ? res.page : 1,
+          totalPages: res.total_pages ? res.total_pages * 10 : 1, //какой-то баг с пагинацией, она делит total на 10
           isRatedList: false,
           loading: false,
           error: false,
@@ -69,8 +69,8 @@ export default class App extends Component {
         this.setState({
           movies: res.results,
           inputValue: '',
-          page: res.page,
-          totalPages: isNaN(res.totalPages) ? 1 : res.total_pages * 10, //какой-то баг с пагинацией, она делит total на 10
+          page: res.page ? res.page : 1,
+          totalPages: res.total_pages ? res.total_pages * 10 : 1, //какой-то баг с пагинацией, она делит total на 10
           isRatedList: true,
           loading: false,
           error: false,
