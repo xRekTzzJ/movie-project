@@ -2,6 +2,8 @@ import { Card, Flex, Rate, Typography } from 'antd';
 import { format } from 'date-fns';
 import React, { Component } from 'react';
 
+import { MovieServiceConsumer } from '../movie-service-context';
+
 import brokenImage from './brokenImage.png'; //Картинка сломанного изображения
 export default class CardItem extends Component {
   state = {
@@ -16,7 +18,7 @@ export default class CardItem extends Component {
     }
   }
   render() {
-    const { title, score, date, desc, image } = this.props;
+    const { title, score, date, desc, image, genres } = this.props;
     let scoreClasses = 'card__score';
     let imageClasses = 'card__image';
     if (score >= 7) {
@@ -52,10 +54,22 @@ export default class CardItem extends Component {
             <Typography.Text className="card__date">
               {date ? format(new Date(date), 'MMMM dd, yyyy') : 'The release date is not specified.'}
             </Typography.Text>
-            <Flex align="start" gap={8}>
-              <Typography.Text className="card__genre">Action</Typography.Text>
-              <Typography.Text className="card__genre">Drama</Typography.Text>
-            </Flex>
+
+            <MovieServiceConsumer>
+              {(genresIds) => {
+                return (
+                  <Flex align="start" gap={8} className="card__genres">
+                    {genres.map((i) => {
+                      return (
+                        <Typography.Text className="card__genre" key={i}>
+                          {genresIds.find((el) => el.id === i).name}
+                        </Typography.Text>
+                      );
+                    })}
+                  </Flex>
+                );
+              }}
+            </MovieServiceConsumer>
             <Typography.Paragraph
               className="card__description"
               ellipsis={{

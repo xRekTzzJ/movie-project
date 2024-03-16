@@ -1,0 +1,4 @@
+.card__genres {
+  flex-wrap: wrap;
+  max-height: 54px;
+}

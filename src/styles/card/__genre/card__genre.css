@@ -6,4 +6,7 @@
   text-align: left;
   border: 1px solid #d9d9d9;
   padding: 3px;
+  text-wrap: nowrap;
+  word-break: keep-all !important;
+  height: 23px;
 }

@@ -16,6 +16,7 @@ export default class CardList extends Component {
           date={i.release_date}
           desc={i.overview}
           id={i.id}
+          genres={i.genre_ids}
           onAddRating={this.props.onAddRating}
           isRatedList={this.props.isRatedList}
           onDeleteRating={this.props.onDeleteRating}

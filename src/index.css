@@ -2,24 +2,24 @@
 @import url(./styles/page/page.css);
 @import url(./styles/ant-card-body/ant-card-body.css);
 @import url(./styles/ant-card/ant-card.css);
+@import url(./styles/ant-rate-star/ant-rate-star.css);
+@import url(./styles/ant-pagination-item-active/ant-pagination-item-active.css);
+@import url(./styles/ant-pagination/ant-pagination.css);
 @import url(./styles/card/__image/card__image.css);
 @import url(./styles/card/__score/card__score.css);
-@import url(./styles/ant-rate-star/ant-rate-star.css);
 @import url(./styles/card/__title/card__title.css);
 @import url(./styles/card/__date/card__date.css);
 @import url(./styles/card/__genre/card__genre.css);
+@import url(./styles/card/__image/_broken/card__image_broken.css);
+@import url(./styles/card/__score/_orange/card__score_orange.css);
+@import url(./styles/card/__score/_yellow/card__score_yellow.css);
+@import url(./styles/card/__genres/card__genres.css);
+@import url(./styles/card/__info/card__info.css);
 @import url(./styles/card/__description/card__description.css);
 @import url(./styles/card/__score/_green/card__score_green.css);
 @import url(./styles/card/__score/_red/card__score_red.css);
 @import url(./styles/pagination/pagination.css);
 @import url(./styles/input/input.css);
 @import url(./styles/header/header.css);
-@import url(./styles/ant-pagination-item-active/ant-pagination-item-active.css);
-@import url(./styles/ant-pagination/ant-pagination.css);
-@import url(./styles/card/__image/_broken/card__image_broken.css);
-@import url(./styles/card/__score/_orange/card__score_orange.css);
-@import url(./styles/card/__score/_yellow/card__score_yellow.css);
 @import url(./styles/card-list/_rated/card-list_rated.css);
-.alert {
-  margin-top: 20px;
-}
+@import url(./styles/alert/alert.css);

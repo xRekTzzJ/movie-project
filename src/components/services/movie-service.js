@@ -91,4 +91,10 @@ export default class MovieService {
     const data = await response.json();
     return data;
   }
+
+  async getGenres() {
+    const response = await fetch(`${this.url}/genre/movie/list?language=en`, this.optionsGET);
+    const data = await response.json();
+    return data['genres'];
+  }
 }

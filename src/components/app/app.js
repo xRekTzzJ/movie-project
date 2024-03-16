@@ -6,13 +6,15 @@ import { Offline, Online } from 'react-detect-offline';
 
 import CardList from '../cardList';
 import Header from '../header';
+import { MovieServiceProvider } from '../movie-service-context';
 import MovieService from '../services/movie-service';
 export default class App extends Component {
-  componentDidMount() {
+  async componentDidMount() {
     if (!this.state.hasGuestSession) {
       localStorage.clear();
       this.movie.createGuestSession();
     }
+    this.genresIds = await this.movie.getGenres();
     this.getMovies();
   }
   state = {
@@ -193,32 +195,34 @@ export default class App extends Component {
   render() {
     const { movies, page, totalPages, isRatedList, inputValue, loading, error, offline, emptyRated } = this.state;
     return (
-      <section className="page">
-        <Header isRatedList={isRatedList} onHeaderButtonClick={this.onHeaderButtonClick} />
-        {isRatedList ? null : (
-          <Input
-            disabled={offline ? true : false}
-            onChange={this.onInputChange}
-            placeholder="Type to search..."
-            className="input"
-            value={inputValue}
+      <MovieServiceProvider value={this.genresIds}>
+        <section className="page">
+          <Header isRatedList={isRatedList} onHeaderButtonClick={this.onHeaderButtonClick} />
+          {isRatedList ? null : (
+            <Input
+              disabled={offline ? true : false}
+              onChange={this.onInputChange}
+              placeholder="Type to search..."
+              className="input"
+              value={inputValue}
+            />
+          )}
+          {this.renderSpinner(loading)}
+          {this.renderErrorAlert(error)}
+          <Online>{this.renderCardList(loading, error, movies, isRatedList, inputValue, emptyRated)}</Online>
+          <Offline onChange={this.lostConnectionHandler}>{this.renderOfflineAlert()}</Offline>
+          <Pagination
+            className="pagination"
+            current={page}
+            total={inputValue.length > 0 || isRatedList ? totalPages : 0}
+            showSizeChanger={false}
+            disabled={error || offline || (inputValue.length === 0 && !isRatedList) ? true : false}
+            onChange={(pageNumber) => {
+              this.onClickPagination(pageNumber, isRatedList, inputValue);
+            }}
           />
-        )}
-        {this.renderSpinner(loading)}
-        {this.renderErrorAlert(error)}
-        <Online>{this.renderCardList(loading, error, movies, isRatedList, inputValue, emptyRated)}</Online>
-        <Offline onChange={this.lostConnectionHandler}>{this.renderOfflineAlert()}</Offline>
-        <Pagination
-          className="pagination"
-          current={page}
-          total={inputValue.length > 0 || isRatedList ? totalPages : 0}
-          showSizeChanger={false}
-          disabled={error || offline || (inputValue.length === 0 && !isRatedList) ? true : false}
-          onChange={(pageNumber) => {
-            this.onClickPagination(pageNumber, isRatedList, inputValue);
-          }}
-        />
-      </section>
+        </section>
+      </MovieServiceProvider>
     );
   }
 }
