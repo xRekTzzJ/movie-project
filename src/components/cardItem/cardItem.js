@@ -60,11 +60,15 @@ export default class CardItem extends Component {
                 return (
                   <Flex align="start" gap={8} className="card__genres">
                     {genres.map((i) => {
-                      return (
-                        <Typography.Text className="card__genre" key={i}>
-                          {genresIds.find((el) => el.id === i).name}
-                        </Typography.Text>
-                      );
+                      try {
+                        return (
+                          <Typography.Text className="card__genre" key={i}>
+                            {genresIds.find((el) => el.id === i).name}
+                          </Typography.Text>
+                        );
+                      } catch (error) {
+                        return null;
+                      }
                     })}
                   </Flex>
                 );

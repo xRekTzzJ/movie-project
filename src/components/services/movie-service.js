@@ -2,6 +2,17 @@ export default class MovieService {
   url = 'https://api.themoviedb.org/3';
   authorization =
     'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxOWJlM2UzYWJmYWNmYTM3NDhjYjg1MjA3MjNmZDY3NCIsInN1YiI6IjY1ZWQ1ZmFiNDQ3ZjljMDE2NDVmOTQzMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ._sDORt3oFzSRlsqWyW-h6uQL_gs0bWG1nMaXd_oxf4E';
+  guestSessionExpires = '';
+
+  //Опции GET запроса
+  optionsGET = {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      Authorization: this.authorization,
+    },
+  };
+
   guestSessionId = () => {
     try {
       return document.cookie
@@ -14,15 +25,6 @@ export default class MovieService {
     } catch (error) {
       return '';
     }
-  };
-  guestSessionExpires = '';
-  //Опции GET запроса
-  optionsGET = {
-    method: 'GET',
-    headers: {
-      accept: 'application/json',
-      Authorization: this.authorization,
-    },
   };
 
   //Создать гостевую сессию
@@ -45,7 +47,9 @@ export default class MovieService {
       },
       body: `{"value":${value}}`,
     };
+
     const response = await fetch(`${this.url}/movie/${id}/rating?guest_session_id=${this.guestSessionId()}`, options);
+    if (!response.ok) throw new Error(response.status);
     const data = await response.json();
     return data;
   }
@@ -62,6 +66,7 @@ export default class MovieService {
     };
 
     const response = await fetch(`${this.url}/movie/${id}/rating?guest_session_id=${this.guestSessionId()}`, options);
+    if (!response.ok) throw new Error(response.status);
     const data = await response.json();
     return data;
   }
@@ -92,8 +97,10 @@ export default class MovieService {
     return data;
   }
 
+  //Получить жанры
   async getGenres() {
     const response = await fetch(`${this.url}/genre/movie/list?language=en`, this.optionsGET);
+    if (!response.ok) throw new Error(response.status);
     const data = await response.json();
     return data['genres'];
   }

@@ -14,7 +14,11 @@ export default class App extends Component {
       localStorage.clear();
       this.movie.createGuestSession();
     }
-    this.genresIds = await this.movie.getGenres();
+    try {
+      this.genresIds = await this.movie.getGenres();
+    } catch (error) {
+      this.genresIds = [{ id: 0, name: 'server error' }];
+    }
     this.getMovies();
   }
   state = {
@@ -26,6 +30,7 @@ export default class App extends Component {
     error: false,
     offline: false,
     inputValue: 'return',
+    serverError: false,
     hasGuestSession: document.cookie.split('; ').find((el) => {
       const arr = el.split('=');
       return arr[0] === 'sessionId';
@@ -147,20 +152,42 @@ export default class App extends Component {
   };
   //Слушатель добавления оценки
   onAddRating = async (id, value) => {
-    await this.movie.addRating(id, value);
-    localStorage.setItem(`${id}`, `${value}`);
+    try {
+      await this.movie.addRating(id, value);
+      localStorage.setItem(`${id}`, `${value}`);
+    } catch {
+      this.setState({
+        serverError: true,
+      });
+      setTimeout(() => {
+        this.setState({
+          serverError: false,
+        });
+      }, 5000);
+    }
   };
   //Слушатель удаления оценки
   onDeleteRating = async (id) => {
-    localStorage.removeItem(`${id}`);
-    await this.movie.deleteRating(id);
-    if (this.state.isRatedList) {
-      this.setState(({ movies }) => {
-        const index = movies.findIndex((i) => i.id === id);
-        return {
-          movies: [...movies.slice(0, index), ...movies.slice(index + 1)],
-        };
+    try {
+      localStorage.removeItem(`${id}`);
+      await this.movie.deleteRating(id);
+      if (this.state.isRatedList) {
+        this.setState(({ movies }) => {
+          const index = movies.findIndex((i) => i.id === id);
+          return {
+            movies: [...movies.slice(0, index), ...movies.slice(index + 1)],
+          };
+        });
+      }
+    } catch {
+      this.setState({
+        serverError: true,
       });
+      setTimeout(() => {
+        this.setState({
+          serverError: false,
+        });
+      }, 5000);
     }
   };
   //Рендер списка фильмов
@@ -197,6 +224,9 @@ export default class App extends Component {
     return (
       <MovieServiceProvider value={this.genresIds}>
         <section className="page">
+          <div className="error-alert">
+            {this.state.serverError ? this.renderErrorAlert(this.state.serverError) : null}
+          </div>
           <Header isRatedList={isRatedList} onHeaderButtonClick={this.onHeaderButtonClick} />
           {isRatedList ? null : (
             <Input

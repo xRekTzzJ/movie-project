@@ -26,3 +26,10 @@
 :where(.css-dev-only-do-not-override-1uweeqc).ant-flex:empty {
   display: block;
 }
+.error-alert {
+  top: 0;
+  right: 0;
+  width: 500px;
+  z-index: 10;
+  position: fixed;
+}
