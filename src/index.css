@@ -23,3 +23,6 @@
 @import url(./styles/header/header.css);
 @import url(./styles/card-list/_rated/card-list_rated.css);
 @import url(./styles/alert/alert.css);
+:where(.css-dev-only-do-not-override-1uweeqc).ant-flex:empty {
+  display: block;
+}
