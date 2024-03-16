@@ -1,0 +1,7 @@
+.error-alert {
+  top: 0;
+  right: 0;
+  width: 500px;
+  z-index: 10;
+  position: fixed;
+}

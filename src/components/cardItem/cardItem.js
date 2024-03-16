@@ -2,9 +2,8 @@ import { Card, Flex, Rate, Typography } from 'antd';
 import { format } from 'date-fns';
 import React, { Component } from 'react';
 
+import brokenImage from '../../img/brokenImage.png'; //Картинка сломанного изображения
 import { MovieServiceConsumer } from '../movie-service-context';
-
-import brokenImage from './brokenImage.png'; //Картинка сломанного изображения
 export default class CardItem extends Component {
   state = {
     rating: this.props.rating,

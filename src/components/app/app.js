@@ -1,9 +1,10 @@
 import { LoadingOutlined } from '@ant-design/icons';
-import { Alert, Input, Pagination, Spin } from 'antd';
+import { Alert, Input, Pagination, Spin, Typography } from 'antd';
 import { debounce } from 'lodash';
 import React, { Component } from 'react';
 import { Offline, Online } from 'react-detect-offline';
 
+import errorImage from '../../img/errorImage.svg'; //Если что-то пошло не так
 import CardList from '../cardList';
 import Header from '../header';
 import { MovieServiceProvider } from '../movie-service-context';
@@ -11,8 +12,14 @@ import MovieService from '../services/movie-service';
 export default class App extends Component {
   async componentDidMount() {
     if (!this.state.hasGuestSession) {
-      localStorage.clear();
-      this.movie.createGuestSession();
+      try {
+        localStorage.clear();
+        await this.movie.createGuestSession();
+      } catch {
+        this.setState({
+          createGuestSessionError: true,
+        });
+      }
     }
     try {
       this.genresIds = await this.movie.getGenres();
@@ -30,6 +37,7 @@ export default class App extends Component {
     error: false,
     offline: false,
     inputValue: 'return',
+    createGuestSessionError: false,
     serverError: false,
     hasGuestSession: document.cookie.split('; ').find((el) => {
       const arr = el.split('=');
@@ -220,8 +228,25 @@ export default class App extends Component {
 
   //Рендер приложения
   render() {
-    const { movies, page, totalPages, isRatedList, inputValue, loading, error, offline, emptyRated } = this.state;
-    return (
+    const {
+      movies,
+      page,
+      totalPages,
+      isRatedList,
+      inputValue,
+      loading,
+      error,
+      offline,
+      emptyRated,
+      createGuestSessionError,
+    } = this.state;
+    return createGuestSessionError ? (
+      <section className="page">
+        <Typography.Text className="error-text">Something went very wrong.</Typography.Text>
+        <img className="error-image" src={errorImage} alt="Error image." />
+        <Typography.Text className="error-text">(But we are already trying to fix it)</Typography.Text>
+      </section>
+    ) : (
       <MovieServiceProvider value={this.genresIds}>
         <section className="page">
           <div className="error-alert">

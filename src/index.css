@@ -5,6 +5,7 @@
 @import url(./styles/ant-rate-star/ant-rate-star.css);
 @import url(./styles/ant-pagination-item-active/ant-pagination-item-active.css);
 @import url(./styles/ant-pagination/ant-pagination.css);
+@import url(./styles/ant-flex/ant-flex.css);
 @import url(./styles/card/__image/card__image.css);
 @import url(./styles/card/__score/card__score.css);
 @import url(./styles/card/__title/card__title.css);
@@ -23,13 +24,6 @@
 @import url(./styles/header/header.css);
 @import url(./styles/card-list/_rated/card-list_rated.css);
 @import url(./styles/alert/alert.css);
-:where(.css-dev-only-do-not-override-1uweeqc).ant-flex:empty {
-  display: block;
-}
-.error-alert {
-  top: 0;
-  right: 0;
-  width: 500px;
-  z-index: 10;
-  position: fixed;
-}
+@import url(./styles/error-alert/error-alert.css);
+@import url(./styles/error-image/error-image.css);
+@import url(./styles/error-text/error-text.css);

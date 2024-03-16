@@ -29,11 +29,15 @@ export default class MovieService {
 
   //Создать гостевую сессию
   async createGuestSession() {
-    const response = await fetch(`${this.url}/authentication/guest_session/new`, this.optionsGET);
-    if (!response.ok) throw new Error(response.status);
-    const data = await response.json();
-    this.guestSessionExpires = new Date(data.expires_at);
-    document.cookie = `sessionId=${data.guest_session_id}; expires=${this.guestSessionExpires}`;
+    try {
+      const response = await fetch(`${this.url}/authentication/guest_session/new`, this.optionsGET);
+      if (!response.ok) throw new Error(response.status);
+      const data = await response.json();
+      this.guestSessionExpires = new Date(data.expires_at);
+      document.cookie = `sessionId=${data.guest_session_id}; expires=${this.guestSessionExpires}`;
+    } catch {
+      throw new Error();
+    }
   }
 
   //Поставить оценку

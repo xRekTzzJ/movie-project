@@ -1,0 +1,7 @@
+.error-text {
+  font-size: 24px;
+  margin: 50px auto 50px;
+}
+.error-text:last-of-type {
+  color: #808080;
+}
