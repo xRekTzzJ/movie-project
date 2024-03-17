@@ -5,7 +5,7 @@ import CardItem from '../cardItem';
 export default class CardList extends Component {
   //Отрендерить фильмы
   renderMovies = () => {
-    const { movies } = this.props;
+    const { movies, onAddRating, isRatedList, onDeleteRating } = this.props;
     return movies.map((i) => {
       return (
         <CardItem
@@ -17,9 +17,9 @@ export default class CardList extends Component {
           desc={i.overview}
           id={i.id}
           genres={i.genre_ids}
-          onAddRating={this.props.onAddRating}
-          isRatedList={this.props.isRatedList}
-          onDeleteRating={this.props.onDeleteRating}
+          onAddRating={onAddRating}
+          isRatedList={isRatedList}
+          onDeleteRating={onDeleteRating}
           rating={i.rating}
         />
       );

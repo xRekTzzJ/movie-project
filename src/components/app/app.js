@@ -11,7 +11,8 @@ import { MovieServiceProvider } from '../movie-service-context';
 import MovieService from '../services/movie-service';
 export default class App extends Component {
   async componentDidMount() {
-    if (!this.state.hasGuestSession) {
+    const { hasGuestSession } = this.state;
+    if (!hasGuestSession) {
       try {
         localStorage.clear();
         await this.movie.createGuestSession();
@@ -176,10 +177,11 @@ export default class App extends Component {
   };
   //Слушатель удаления оценки
   onDeleteRating = async (id) => {
+    const { isRatedList } = this.state;
     try {
       localStorage.removeItem(`${id}`);
       await this.movie.deleteRating(id);
-      if (this.state.isRatedList) {
+      if (isRatedList) {
         this.setState(({ movies }) => {
           const index = movies.findIndex((i) => i.id === id);
           return {
@@ -239,6 +241,7 @@ export default class App extends Component {
       offline,
       emptyRated,
       createGuestSessionError,
+      serverError,
     } = this.state;
     return createGuestSessionError ? (
       <section className="page">
@@ -249,9 +252,7 @@ export default class App extends Component {
     ) : (
       <MovieServiceProvider value={this.genresIds}>
         <section className="page">
-          <div className="error-alert">
-            {this.state.serverError ? this.renderErrorAlert(this.state.serverError) : null}
-          </div>
+          <div className="error-alert">{serverError ? this.renderErrorAlert(serverError) : null}</div>
           <Header isRatedList={isRatedList} onHeaderButtonClick={this.onHeaderButtonClick} />
           {isRatedList ? null : (
             <Input

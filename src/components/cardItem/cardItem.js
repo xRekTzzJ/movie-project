@@ -10,14 +10,16 @@ export default class CardItem extends Component {
     isUnrated: false,
   };
   componentDidMount() {
-    if (localStorage.getItem(this.props.id)) {
+    const { id } = this.props;
+    if (localStorage.getItem(id)) {
       this.setState({
-        rating: Number(localStorage.getItem(this.props.id)),
+        rating: Number(localStorage.getItem(id)),
       });
     }
   }
   render() {
-    const { title, score, date, desc, image, genres } = this.props;
+    const { title, score, date, desc, image, genres, id, onDeleteRating, isRatedList, onAddRating } = this.props;
+    const { isUnrated, rating } = this.state;
     let scoreClasses = 'card__score';
     let imageClasses = 'card__image';
     if (score >= 7) {
@@ -35,20 +37,20 @@ export default class CardItem extends Component {
     if (!image) {
       imageClasses += ' card__image_broken';
     }
-    return this.state.isUnrated ? null : (
+    return isUnrated ? null : (
       <Card>
         <Flex gap={20}>
           <img
-            alt="avatar"
+            alt="Poster."
             src={image ? `https://image.tmdb.org/t/p/w500/${image}` : brokenImage}
             className={imageClasses}
           />
           <Flex vertical="true" gap={7} className="card__info">
             <Flex align="center" justify="space-between">
               <Typography.Text className="card__title" ellipsis>
-                {title}
+                {title ? title : 'No title yet'}
               </Typography.Text>
-              <Typography.Text className={scoreClasses}>{score}</Typography.Text>
+              <Typography.Text className={scoreClasses}>{score ? score : 0.0}</Typography.Text>
             </Flex>
             <Typography.Text className="card__date">
               {date ? format(new Date(date), 'MMMM dd, yyyy') : 'The release date is not specified.'}
@@ -83,12 +85,12 @@ export default class CardItem extends Component {
             </Typography.Paragraph>
             <Rate
               allowHalf={true}
-              value={this.state.rating}
+              value={rating}
               count={10}
               onChange={(e) => {
                 if (e === 0) {
-                  this.props.onDeleteRating(this.props.id);
-                  if (this.props.isRatedList) {
+                  onDeleteRating(id);
+                  if (isRatedList) {
                     this.setState({
                       rating: e,
                       isUnrated: true,
@@ -99,7 +101,7 @@ export default class CardItem extends Component {
                     });
                   }
                 } else {
-                  this.props.onAddRating(this.props.id, e);
+                  onAddRating(id, e);
                   this.setState({
                     rating: e,
                   });
