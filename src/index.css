@@ -23,6 +23,7 @@
 @import url(./styles/pagination/pagination.css);
 @import url(./styles/input/input.css);
 @import url(./styles/header/header.css);
+@import url(./styles/card-list/card-list.css);
 @import url(./styles/card-list/_rated/card-list_rated.css);
 @import url(./styles/alert/alert.css);
 @import url(./styles/error-alert/error-alert.css);
