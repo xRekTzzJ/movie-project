@@ -4,4 +4,12 @@
   height: 298px;
   object-fit: cover;
   object-position: center;
+  grid-area: img;
+}
+@media screen and (max-width: 499px) {
+  .card__image {
+    width: 60px;
+    height: 91px;
+    float: left;
+  }
 }

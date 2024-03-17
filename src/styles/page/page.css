@@ -2,9 +2,13 @@
   max-width: 950px;
   padding: 0 30px !important;
   margin: 0 auto;
-  padding: 0;
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
   position: relative;
+}
+@media screen and (max-width: 499px) {
+  .page {
+    padding: 0 15px !important;
+  }
 }

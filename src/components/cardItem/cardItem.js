@@ -7,7 +7,7 @@ import brokenImage from '../../img/brokenImage.png'; //Картинка слом
 import { MovieServiceConsumer } from '../movie-service-context';
 export default class CardItem extends Component {
   static propTypes = {
-    rating: PropTypes.string,
+    rating: PropTypes.number,
     title: PropTypes.string,
     score: PropTypes.string,
     date: PropTypes.string,
