@@ -1,8 +1,19 @@
 import { Alert, Flex } from 'antd';
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 import CardItem from '../cardItem';
 export default class CardList extends Component {
+  static propTypes = {
+    movies: PropTypes.array,
+    isRatedList: PropTypes.bool,
+    onAddRating: PropTypes.func,
+    onDeleteRating: PropTypes.func,
+  };
+  static defaultProps = {
+    onDeleteRating: () => {},
+    onAddRating: () => {},
+  };
   //Отрендерить фильмы
   renderMovies = () => {
     const { movies, onAddRating, isRatedList, onDeleteRating } = this.props;

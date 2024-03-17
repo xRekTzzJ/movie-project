@@ -1,10 +1,28 @@
 import { Card, Flex, Rate, Typography } from 'antd';
 import { format } from 'date-fns';
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 import brokenImage from '../../img/brokenImage.png'; //Картинка сломанного изображения
 import { MovieServiceConsumer } from '../movie-service-context';
 export default class CardItem extends Component {
+  static propTypes = {
+    rating: PropTypes.string,
+    title: PropTypes.string,
+    score: PropTypes.string,
+    date: PropTypes.string,
+    desc: PropTypes.string,
+    image: PropTypes.string,
+    id: PropTypes.number,
+    genres: PropTypes.array,
+    onDeleteRating: PropTypes.func,
+    onAddRating: PropTypes.func,
+    isRatedList: PropTypes.bool,
+  };
+  static defaultProps = {
+    onDeleteRating: () => {},
+    onAddRating: () => {},
+  };
   state = {
     rating: this.props.rating,
     isUnrated: false,

@@ -1,6 +1,14 @@
 import { Layout, Menu } from 'antd';
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 export default class Header extends Component {
+  static propTypes = {
+    onHeaderButtonClick: PropTypes.func,
+    isRatedList: PropTypes.bool,
+  };
+  static defaultProps = {
+    onHeaderButtonClick: () => {},
+  };
   render() {
     const { Header } = Layout;
     const { onHeaderButtonClick, isRatedList } = this.props;
