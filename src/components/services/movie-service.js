@@ -78,6 +78,9 @@ export default class MovieService {
   //Получить оцененные фильмы
   async getRatedMovies(page = 1) {
     try {
+      if (localStorage.length === 0) {
+        throw new Error();
+      } // если оцененных фильмов нет выкидывается ошибка, чтобы запрос на несуществующий сервер не уходил
       const response = await fetch(
         `${this.url}/guest_session/${this.guestSessionId()}/rated/movies?language=en-US&page=${page}&sort_by=created_at.asc`,
         this.optionsGET
